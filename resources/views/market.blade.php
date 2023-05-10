@@ -92,8 +92,6 @@
                 var purchase = '{{ route("purchase.image", "") }}';
                 var plzLogin = '{{ route("plzLogin") }}';
                 var Role ='{{ Auth::user()->role}}';
-                // alert(Role)
-                // alert(auth)
             </script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
             <script src="{{ asset('js/market.js') }}"></script>
