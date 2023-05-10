@@ -61,7 +61,6 @@
             {{ session('status') }}
         </div>
     @endif
-    @include('sweetalert::alert')
     <table class="table caption-top" id="datatablesSimple">
         <thead>
             <tr>

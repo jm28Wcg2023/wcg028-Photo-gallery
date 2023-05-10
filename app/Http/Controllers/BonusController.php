@@ -23,6 +23,7 @@ class BonusController extends Controller
 
     //Bonus Update function
     public function bonusUpdate(Request $request,$id){
+        // dd($id);
         $request->validate([
             'bonus_name' => 'required',
             'coins' => 'required'
@@ -34,7 +35,6 @@ class BonusController extends Controller
 
         $bonusUpdate->update();
 
-        Alert::success("Good Job", "You've Updated {$bonusUpdate->bonus_name} Bonus");
 
         return response()->json(['success' => true]);
     }

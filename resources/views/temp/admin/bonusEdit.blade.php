@@ -13,6 +13,8 @@
     " rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+<script src="{{asset('js/bonusedit.js')}}"></script>
+
 @endsection
 
 @section('sidenav')
@@ -75,8 +77,9 @@
     <li class="breadcrumb-item"><a href="{{ route('user') }}">Dashboard</a></li>
     <li class="breadcrumb-item active">Bonus List</li>
 </ol>
+
 <div class="row m-3 p-3 shadow-lg">
-    <form action="{{route('bonusUpdate',$bonusEdit->id)}}" id="myForm" method="POST" enctype="multipart/form-data">
+    <form id="myForm" data-action="{{route('bonusUpdate',$bonusEdit->id)}}"  method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="form-group my-4">
@@ -91,74 +94,78 @@
             <span class="text-danger" id="coins_error"></span>
         </div>
 
-        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-primary" id="submit">Update</button>
     </form>
 </div>
 <script>
-     $(document).ready(function() {
-        function isvalidateBonus(){
-            $.validator.addMethod("noSpace", function(value, element) {
-                return value.trim().length != 0;
-            }, "Spaces are not allowed.");
+    //  $(document).ready(function() {
+    //     function isvalidateBonus(){
+    //         $.validator.addMethod("noSpace", function(value, element) {
+    //             return value.trim().length != 0;
+    //         }, "Spaces are not allowed.");
 
-            $("#myForm").validate({
-                    rules: {
-                        bonus_name: {
-                            required :true,
-                            noSpace: true,
-                        },
-                        coins:{
-                            required :true,
-                            number: true,
-                            noSpace: true,
-                        }
-                    },
-                    messages: {
-                        bonus_name: {
-                            required: "Please enter a name.",
-                            noSpace: "Spaces are not allowed in the name field."
-                        },
-                        coins: {
-                            required: "Please select a coin.",
-                            number: "Please enter a valid number",
-                            noSpace: "Spaces are not allowed in the coin field."
-                        }
-                    }
-                });
-            }
-        $('form').submit(function(e) {
-            e.preventDefault();
-            isvalidateBonus();
+    //         $("#myForm").validate({
+    //                 rules: {
+    //                     bonus_name: {
+    //                         required :true,
+    //                         noSpace: true,
+    //                     },
+    //                     coins:{
+    //                         required :true,
+    //                         number: true,
+    //                         noSpace: true,
+    //                     }
+    //                 },
+    //                 messages: {
+    //                     bonus_name: {
+    //                         required: "Please enter a name.",
+    //                         noSpace: "Spaces are not allowed in the name field."
+    //                     },
+    //                     coins: {
+    //                         required: "Please select a coin.",
+    //                         number: "Please enter a valid number",
+    //                         noSpace: "Spaces are not allowed in the coin field."
+    //                     }
+    //                 }
+    //             });
+    //         }
+    //     $('form').submit(function(e) {
+    //         e.preventDefault();
+    //         isvalidateBonus();
 
-            if ($('#myForm').valid()) { //start
-            $.ajax({
-                url:"{{route('bonusUpdate',$bonusEdit->id)}}",
-                method:"POST",
-                data:$('#myForm').serialize(),
-                type:'json',
-                success:function(data)
-                {
-                    console.log(data);
-                    if (data.success) {
-                        window.location.href = "{{route('bonusView')}}";
-                    }
-                    alert('{{$bonusEdit->bonus_name}} Updated Successfully!');
-                },
-                error:function(xhr, status, error){
-                    var errors = xhr.responseJSON.errors;
-                    console.log(errors)
-                    $.each(errors, function (key, value) {
-                        $("#" + key + "_error").text(value[0]);
-                        $("#" + key).addClass("is-invalid");
-                    });
+    //         if ($('#myForm').valid()) { //start
+    //         $.ajax({
+    //             url:"{{route('bonusUpdate',$bonusEdit->id)}}",
+    //             method:"POST",
+    //             data:$('#myForm').serialize(),
+    //             type:'json',
+    //             success:function(data)
+    //             {
+    //                 console.log(data);
+    //                 if (data.success) {
+    //                     // window.location.href = "{{route('bonusView')}}";
+    //                 }
+    //                 // alert('{{$bonusEdit->bonus_name}} Updated Successfully!');
+    //             },
+    //             error:function(xhr, status, error){
+    //                 var errors = xhr.responseJSON.errors;
+    //                 console.log(errors)
+    //                 $.each(errors, function (key, value) {
+    //                     $("#" + key + "_error").text(value[0]);
+    //                     $("#" + key).addClass("is-invalid");
+    //                 });
 
-                }
-           });
-            $('#myForm')[0].submit();
-        }//end
+    //             }
+    //        });
+    //         $('#myForm')[0].submit();
+    //     }//end
 
-        });
-     });
+    //     });
+    //  });
+    // var route = "{{route('bonusUpdate',$bonusEdit->id)}}";
+    // alert(route);
+    // var  id = '{{route('bonusView')}}';
+    // alert(id)
 </script>
 @endsection
 
@@ -170,6 +177,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="{{asset('templete/js/scripts.js')}}"></script>
+    {{-- <script src="{{asset('js/bonusedit.js')}}"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="{{asset('templete/js/datatables-simple-demo.js')}}"></script>
 @endsection
