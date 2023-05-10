@@ -179,7 +179,7 @@
                 }
             });
             $.ajax({
-                url:"{{route('AjaxImageUpload')}}",
+                url:"",
                 method:"POST",
                 data:new FormData(this),
                 type:'json',
@@ -193,7 +193,7 @@
                         'Image Uploaded Successfully!',
                         'success'
                         )
-                    // window.location = '{{ route('userimagelist') }}'
+                    // window.location = ''
                     document.getElementById("myForm").reset();
                 }
            });

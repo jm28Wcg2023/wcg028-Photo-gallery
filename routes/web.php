@@ -144,7 +144,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     //Admin User List-----------------------------
     Route::get('/admin/userlist',[AdminController::class,'AdminUserListView'])->name('userlist');
 
-    // Route::post('/admin/userlist',[AdminController::class,'addUser'])->name('addUser');
+    Route::post('/admin/userlist',[AdminController::class,'addUser'])->name('addUser');
 
     Route::get('/admin/userlist/{id}',[AdminController::class,'editUserView'])->name('editUserView');
 
