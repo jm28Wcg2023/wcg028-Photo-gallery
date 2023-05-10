@@ -78,16 +78,22 @@
             cards += '<div class="d-flex justify-content-between">';
             // if(checkLogin){
             if(auth) {
-                if (value.is_owned || value.user_id == "{{ Auth::user()->id }}") {
+                if(Role === '0'){
+
+                    if (value.is_owned || value.user_id == "{{ Auth::user()->id }}") {
+
+                        cards += '<a href="/image-market/' + value.id + '" class="btn btn-dark d-flex w-0 justify-content-end download" id="download"><i class="bi bi-arrow-down"></i></a>';
+                        // cards += '<a href="{{ route("download.image", "") }}/' + value.id + '" class="btn btn-dark d-flex w-0 justify-content-end download" id="download"><i class="bi bi-arrow-down"></i></a>';
+                    } else if (value.is_purchased) {
+                        cards += '<a href="/image-market/' + value.id + '" class="btn btn-dark d-flex w-0 justify-content-end download" id="download"><i class="bi bi-arrow-down"></i></a>';
+                        // cards += '<a href="{{ route("download.image", "") }}/' + value.id + '" class="btn btn-dark d-flex w-0 justify-content-end download" id="download"><i class="bi bi-arrow-down"></i></a>';
+                    } else {
+                         cards += '<a href="/image-purchase/' +value.id+'" id="buy" data-id="'+ value.id +'" class="btn btn-warning">Buy</a>';
+                        // cards += '<a href="{{ route("purchase.image", "") }}/' +value.id+'" id="buy" data-id="'+ value.id +'" class="btn btn-warning">Buy</a>';
+                    }
+                }else{
 
                     cards += '<a href="/image-market/' + value.id + '" class="btn btn-dark d-flex w-0 justify-content-end download" id="download"><i class="bi bi-arrow-down"></i></a>';
-                    // cards += '<a href="{{ route("download.image", "") }}/' + value.id + '" class="btn btn-dark d-flex w-0 justify-content-end download" id="download"><i class="bi bi-arrow-down"></i></a>';
-                } else if (value.is_purchased) {
-                    cards += '<a href="/image-market/' + value.id + '" class="btn btn-dark d-flex w-0 justify-content-end download" id="download"><i class="bi bi-arrow-down"></i></a>';
-                    // cards += '<a href="{{ route("download.image", "") }}/' + value.id + '" class="btn btn-dark d-flex w-0 justify-content-end download" id="download"><i class="bi bi-arrow-down"></i></a>';
-                } else {
-                     cards += '<a href="/image-purchase/' +value.id+'" id="buy" data-id="'+ value.id +'" class="btn btn-warning">Buy</a>';
-                    // cards += '<a href="{{ route("purchase.image", "") }}/' +value.id+'" id="buy" data-id="'+ value.id +'" class="btn btn-warning">Buy</a>';
                 }
             } else {
             // }else {
