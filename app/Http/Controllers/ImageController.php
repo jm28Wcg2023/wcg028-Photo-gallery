@@ -72,7 +72,7 @@ class ImageController extends Controller
         //get the select value from the select option
         $sort = $request->input('sort');
 
-        $cards = Image::query()->with('user');
+        $cards = Image::query()->latest()->with('user');
 
         // this search images by there name and description
         if ($query) {
@@ -95,16 +95,20 @@ class ImageController extends Controller
 
         $cards = $cards->get();
         $checkLogin = Auth::check();
-        $user_id = Auth::user()->id;
-        $image_own_id= Image::where('user_id',$user_id)->pluck('id')->toArray();
-        $imageId = UserImage::where('user_id',$user_id)->pluck('image_id')->toArray();
-
-        // Loop through the cards and add the is_owned and is_purchased variables
-        foreach ($cards as $card) {
-            $card->is_owned = in_array($card->id, $image_own_id) ;
-            $card->is_purchased = in_array($card->id, $imageId);
-            $card->$checkLogin;
+        if($checkLogin) {
+            $user_id = Auth::user()->id;
+            $image_own_id= Image::where('user_id',$user_id)->pluck('id')->toArray();
+            $imageId = UserImage::where('user_id',$user_id)->pluck('image_id')->toArray();
+             // Loop through the cards and add the is_owned and is_purchased variables
+            foreach ($cards as $card) {
+                $card->is_owned = in_array($card->id, $image_own_id) ;
+                $card->is_purchased = in_array($card->id, $imageId);
+                $card->$checkLogin;
+            }
         }
+
+
+
 
         return response()->json($cards);
     }

@@ -7,7 +7,7 @@
         var query = $(this).val();
         $.ajax({
         //   url: '{{ route("cards") }}',
-          url : $(this).attr('data-action'),
+          url : $('#search').attr('data-action'),
           type: 'GET',
           dataType: 'json',
           data: {
@@ -28,7 +28,7 @@
         var query = $('#search').val();
         $.ajax({
         //   url: '{{ route("cards") }}',
-        url : $(this).attr('data-action'),
+        url : $('#sort').attr('data-action'),
           type: 'GET',
           dataType: 'json',
           data: {
@@ -46,9 +46,8 @@
 
       function loadCards() {
         $.ajax({
-
-          url: '{{ route("cards") }}',
-          url : $(this).attr('data-action'),
+          url: $('#sort').attr('data-action'),
+        //   url : $(this).attr('data-action'),
           type: 'GET',
           dataType: 'json',
           success: function(data) {
@@ -66,7 +65,7 @@
         $.each(data, function(index, value) {
             cards += '<div class="col-md-6 col-lg-4">';
             cards += '<div class="card my-3 card-block">';
-            cards += '<img src="{{ asset("images/") }}/'+ value.image_path +'" class="card-img-top" alt="'+ value.name +'">';
+            cards += '<img src="/images/'+ value.image_path +'" class="card-img-top" alt="'+ value.name +'">';
             cards += '<div class="card-body">';
             cards += '<div class="row">';
             cards += '<div class="col d-flex justify-content-between">';
@@ -78,18 +77,24 @@
             cards += '<p class="card-text badge rounded-pill bg-success fs-6">'+ value.coin +' <i class="bi bi-cash text-warning fs-6"></i></p>';
             cards += '<div class="d-flex justify-content-between">';
             // if(checkLogin){
-            cards += '@if (Auth::check())';
+            if(auth) {
                 if (value.is_owned || value.user_id == "{{ Auth::user()->id }}") {
-                    cards += '<a href="{{ route("download.image", "") }}/' + value.id + '" class="btn btn-dark d-flex w-0 justify-content-end download" id="download"><i class="bi bi-arrow-down"></i></a>';
+
+                    cards += '<a href="/image-market/' + value.id + '" class="btn btn-dark d-flex w-0 justify-content-end download" id="download"><i class="bi bi-arrow-down"></i></a>';
+                    // cards += '<a href="{{ route("download.image", "") }}/' + value.id + '" class="btn btn-dark d-flex w-0 justify-content-end download" id="download"><i class="bi bi-arrow-down"></i></a>';
                 } else if (value.is_purchased) {
-                    cards += '<a href="{{ route("download.image", "") }}/' + value.id + '" class="btn btn-dark d-flex w-0 justify-content-end download" id="download"><i class="bi bi-arrow-down"></i></a>';
+                    cards += '<a href="/image-market/' + value.id + '" class="btn btn-dark d-flex w-0 justify-content-end download" id="download"><i class="bi bi-arrow-down"></i></a>';
+                    // cards += '<a href="{{ route("download.image", "") }}/' + value.id + '" class="btn btn-dark d-flex w-0 justify-content-end download" id="download"><i class="bi bi-arrow-down"></i></a>';
                 } else {
-                    cards += '<a href="{{ route("purchase.image", "") }}/' +value.id+'" id="buy" data-id="'+ value.id +'" class="btn btn-warning">Buy</a>';
+                     cards += '<a href="/image-purchase/' +value.id+'" id="buy" data-id="'+ value.id +'" class="btn btn-warning">Buy</a>';
+                    // cards += '<a href="{{ route("purchase.image", "") }}/' +value.id+'" id="buy" data-id="'+ value.id +'" class="btn btn-warning">Buy</a>';
                 }
-            cards += '@else';
+            } else {
             // }else {
-                cards += '<a href="{{ route("plzLogin") }}" class="btn btn-dark d-flex w-0 justify-content-end download" id="download"><i class="bi bi-arrow-down"></i></a>';
-            cards += '@endif';
+                cards += '<a href="/market" id="buy" class="btn btn-warning">Buy</a>';
+
+                // cards += '<a href="{{ route("plzLogin") }}" class="btn btn-dark d-flex w-0 justify-content-end download" id="download"><i class="bi bi-arrow-down"></i></a>';
+            }
 
 
             cards += '</div>';
