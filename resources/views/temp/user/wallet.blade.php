@@ -118,24 +118,10 @@
 
 
 @section('downlinks')
-    <script type="text/javascript">
-        $(function () {
-            var table = $('.wallet-table').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('walletdata') }}",
-                columns: [
-                    {data:'id',name: 'id',"orderable": false},
-                    {data: 'description', name: 'description'},
-                    {data: 'transaction_type', name: 'transaction_type'},
-                    {data: 'transaction_amount', name: 'transaction_amount', },
-                ]
-            });
-        });
-    </script>
     <!-- custom -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
     <script src="{{ asset('js/scripts_custom.js') }}"></script>
+    <script src="{{ asset('js/wallet.js') }}"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
