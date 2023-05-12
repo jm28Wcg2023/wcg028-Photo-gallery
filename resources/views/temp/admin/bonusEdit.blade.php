@@ -79,6 +79,16 @@
 </ol>
 
 <div class="row m-3 p-3 shadow-lg">
+    {{-- @if (session('message'))
+        <div class="alert alert-success" role="alert">
+            {{ session('message') }}
+        </div>
+    @endif --}}
+
+    <div class="alert alert-success" style="display:none">
+        {{ Session::get('success') }}
+</div>
+
     <form id="myForm" data-action="{{route('bonusUpdate',$bonusEdit->id)}}"  method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')

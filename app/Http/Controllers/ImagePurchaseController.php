@@ -75,7 +75,10 @@ class ImagePurchaseController extends Controller
     }
 
     public function plzLogin(){
-        Alert::error('Failed', 'Plz Loin');
-        return back();
+        if(!Auth::check()){
+
+            Alert::error('Failed', 'Plz Loin');
+            return back();
+        }
     }
 }

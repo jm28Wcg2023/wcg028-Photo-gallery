@@ -77,6 +77,7 @@ class RegisterController extends Controller
     {
 
         $referred_by = $data['referred_by'] ?? '';
+        // dd($referred_by);
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -111,7 +112,8 @@ class RegisterController extends Controller
         ]);
         //it check if the user has referral code so do  this.
         if($referred_by){
-
+            // dd($referred_by);
+            // dd($data['referred_by']);
             //get the id of  user based on referral code
             $referral_user_id = User::where('affiliation_link',$data['referred_by'])->select('id')->first();
             // dd($referral_user_id);

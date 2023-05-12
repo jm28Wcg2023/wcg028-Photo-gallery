@@ -10,10 +10,14 @@ use App\Models\UserImage;
 use App\Models\User;
 use App\Models\Bonus;
 // use Session;
+use Mail;
+use Notification;
+use App\Mail\DeleteImageMail;
 use App\Http\Requests\UploadRequest;
 use App\Http\Requests\UploadNewRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Log;
+use App\Notifications\DeleteImageNotifiaction;
 
 
 class ImageController extends Controller
@@ -61,6 +65,7 @@ class ImageController extends Controller
             // dd($imageId);
             return view('market', compact('images','imageId','image_own_id'));
         }
+
         return view('market', compact('images'));
     }
 
@@ -72,7 +77,7 @@ class ImageController extends Controller
         //get the select value from the select option
         $sort = $request->input('sort');
 
-        $cards = Image::query()->latest()->with('user');
+        $cards = Image::query()->with('user');
 
         // this search images by there name and description
         if ($query) {
@@ -106,10 +111,6 @@ class ImageController extends Controller
                 $card->$checkLogin;
             }
         }
-
-
-
-
         return response()->json($cards);
     }
 
@@ -124,6 +125,8 @@ class ImageController extends Controller
         unlink("images/".$image->image_path);
 
         $image->delete();
+
+
         Log::warning('User : '.Auth::user()->email.' has delete image id'.$image.' at'.date('Y-m-d H:i:s'));
 
         if(Auth::user()->role == 0){
@@ -187,5 +190,6 @@ class ImageController extends Controller
 
 
     }
+
 
 }

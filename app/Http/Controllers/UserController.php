@@ -12,10 +12,6 @@ use DataTables;
 
 class UserController extends Controller
 {
-    //
-    // public function view(){
-    //     return view('user');
-    // }
 
     //User Image Upload Form view
     public function uploadImage(){

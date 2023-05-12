@@ -42,12 +42,9 @@ $(document).ready(function() {
             type:'json',
             success:function(data)
             {
-                console.log(data);
-                // if (data.success) {
-                //     window.location.href = "/admin/bonus";
-                // }
-                // alert('{{$bonusEdit->bonus_name}} Updated Successfully!');
-
+                console.log('data', data);
+                $(".alert-success").css("display", "block");
+                $(".alert-success").append("<p>Bonus Updated Successfully.</p>");
             },
             error:function(xhr, status, error){
                 var errors = xhr.responseJSON.errors;

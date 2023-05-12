@@ -35,6 +35,9 @@ class BonusController extends Controller
 
         $bonusUpdate->update();
 
+        $request->session()->flash('message', 'Bonus Updated Successfully.');
+        $request->session()->flash('message-type', 'success');
+
 
         return response()->json(['success' => true]);
     }

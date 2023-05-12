@@ -120,7 +120,7 @@ Route::get('/cards', [ImageController::class, 'getImageCards'])->name('cards');
 
 
 //Referral Register
-// Route::get('/referral-register',[RegisterController::class,'referralRegister'])->name('referralRegister');
+Route::get('/referral-register',[RegisterController::class,'referralRegister'])->name('referralRegister');
 
 //change password view
 Route::get('/changePassword', [HomeController::class, 'showChangePasswordGet'])->name('changePasswordGet');
@@ -187,6 +187,7 @@ Route::group(['middleware' => ['auth', 'user']], function () {
 
     //Image Add form
     Route::get('/user/addimage',[UserController::class,'uploadImage'])->name('addimage');
+
 
     //wallet
     Route::get('/user/wallet',[UserController::class,'userWallet'])->name('wallet');

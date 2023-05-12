@@ -124,10 +124,8 @@
     </form>
 </div>
 
-@endsection
 
 
-@section('downlinks')
     <!-- custom -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
