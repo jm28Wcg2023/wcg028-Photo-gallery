@@ -63,7 +63,8 @@
         <table class="table caption-top" id="datatablesSimple">
             <thead>
                 <tr>
-                    <th>Id</th>
+                    {{-- <th>Id</th> --}}
+                    <th>Image</th>
                     <th>Image Name</th>
                     <th>Image Description</th>
                     <th>Coins</th>
@@ -73,7 +74,8 @@
             <tbody>
                 @foreach ($images as $image)
                 <tr>
-                    <td>{{$image->id}}</td>
+                    {{-- <td>{{$image->id}}</td> --}}
+                    <td ><img src="{{ asset('images/' . $image->image_path) }}" height="60" class="w-25" alt="{{ $image->name }}"></td>
                     <td>{{$image->name}}</td>
                     <td>{{$image->description}}</td>
                     <td>{{$image->coin}}</td>

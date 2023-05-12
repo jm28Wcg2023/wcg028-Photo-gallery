@@ -41,31 +41,7 @@ class ImageController extends Controller
     // market view
     public function index(Request $request)
     {
-        // dd($image_own_id);
         $images = Image::latest()->with('user')->paginate(15);
-        // $images = Image::latest()->with('user')->paginate(10);
-        $search =  $request->search;
-
-        if($request->search != ''){
-            $images = Image::where('name', 'LIKE', "%{$search}%")
-                        ->orWhere('description', 'LIKE', "%{$search}%")
-                        ->paginate(4);
-            // dd($images);
-        }
-
-            // return redirect()->route('market');
-
-        if(Auth::check()){
-            $user = Auth::user()->id;
-            // dd($user);
-            $user_id = Auth::user()->id;
-            $image_own_id= Image::where('user_id',$user_id)->pluck('id')->toArray();
-
-            $imageId = UserImage::where('user_id',$user)->pluck('image_id')->toArray();
-            // dd($imageId);
-            return view('market', compact('images','imageId','image_own_id'));
-        }
-
         return view('market', compact('images'));
     }
 

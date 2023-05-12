@@ -4,14 +4,14 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="templete/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <style>
+        .referred_link{
+            pointer-events: none;
+            background-color: lightgray;
+        }
+    </style>
 @endsection
 @section('sidenav')
-<style>
-    .referred_link{
-        pointer-events: none;
-        background-color: lightgray;
-    }
-</style>
 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
     <div class="sb-sidenav-menu">
         <div class="nav">
@@ -74,8 +74,8 @@
                 {{ __('User Email :') }} {{Auth::user()->email}}<br>
                 <hr>
                 {{ __('User Phone :') }} {{Auth::user()->phone}}<br>
-                <hr>
-                {{ __('User Id :') }} {{Auth::user()->id}}<br>
+                {{-- <hr> --}}
+                {{-- {{ __('User Id :') }} {{Auth::user()->id}}<br> --}}
                 <hr>
                 <div class="row">
                     <div class="col-4">

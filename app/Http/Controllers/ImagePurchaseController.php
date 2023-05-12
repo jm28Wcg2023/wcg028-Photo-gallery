@@ -16,7 +16,7 @@ class ImagePurchaseController extends Controller
     public function purchaseImage($id){
         //get Image Id
         $image = Image::findOrFail($id);
-        // dd($image);
+
         //get User Id
         $user = Auth::user()->id;
 
@@ -29,7 +29,7 @@ class ImagePurchaseController extends Controller
         $wallet_coin = $wallet->wallet_coin;
 
         //checks the user has coins if "true" goes inside else return with error
-        if($wallet_coin > $image_coin){
+        if($wallet_coin >= $image_coin){
             UserImage::create([
                 'user_id' => $user,
                 'image_id' => $image->id,
@@ -64,8 +64,7 @@ class ImagePurchaseController extends Controller
                 'description' => 'MARKET IMAGE PURCHASE ID:'.$image->id .' At: '.date('Y-m-d H:i:s'),
             ]);
 
-             //get the wallet coin from the image owner user_id
-            // $wallet_image_owner =
+        Alert::success('Success', 'You have Purchased Image');
 
         }else{
             Alert::warning('Low Coins', 'Wallet has Low Balance');
@@ -76,8 +75,7 @@ class ImagePurchaseController extends Controller
 
     public function plzLogin(){
         if(!Auth::check()){
-
-            Alert::error('Failed', 'Plz Loin');
+            Alert::error('Failed', 'Please Login');
             return back();
         }
     }

@@ -74,7 +74,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('user') }}">
-                                        {{ __('Profile') }}
+                                        {{ __('Dashboard') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('changePasswordGet') }}">
                                         {{ __('Change password') }}
@@ -115,6 +115,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+
 
 </body>
 </html>

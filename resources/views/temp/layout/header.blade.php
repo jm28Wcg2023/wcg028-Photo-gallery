@@ -18,7 +18,7 @@
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li>
                     <a class="dropdown-item" href="{{ route('user') }}">
-                        {{ __('Profile') }}
+                        {{ __('Dashboard') }}
                     </a>
                 </li>
                 <li>

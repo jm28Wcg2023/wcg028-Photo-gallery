@@ -115,7 +115,7 @@
     <table class=" tblSample table caption-top" id="datatablesSimple">
         <thead>
             <tr>
-                <th>Id</th>
+                {{-- <th>Id</th> --}}
                 <th>Image</th>
                 <th>Image Name</th>
                 <th>Image Description</th>
@@ -128,7 +128,7 @@
         <tbody>
                 @foreach ($userOwnImageList as $sample)
             <tr>
-                <td>{{$sample->id}}</td>
+                {{-- <td>{{$sample->id}}</td> --}}
                 <td><img src="{{ asset('images/' . $sample->image_path) }}" height="60" class="card-img-top w-50" alt="{{ $sample->name }}"></td>
                 <td>{{$sample->name}}</td>
                 <td>{{$sample->description}}</td>

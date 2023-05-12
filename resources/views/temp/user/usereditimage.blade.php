@@ -181,7 +181,7 @@
                                 timer: 4000
                             })
                             // console.log(data)
-                            window.location = '{{ route('userimagelist') }}'
+                            // window.location = '{{ route('userimagelist') }}'
                         },
                         error:function(xhr, status, error){
                             var errors = xhr.responseJSON.errors;

@@ -19,7 +19,7 @@ class UserController extends Controller
     }
 
     // pass the data to the user view
-    public function UserView(){
+    public function userView(){
 
         $login_user_id = Auth::user()->id;
 
@@ -59,14 +59,13 @@ class UserController extends Controller
     }
 
     // User  Image Data Edit From
-    public function UserEditImage($id){
+    public function userEditImage($id){
         $imageData = Image::find($id);
         return view('temp.user.usereditimage',compact('imageData'));
     }
 
     // User Image Data Update
-    public function UserUpdateImage(Request $request,$id){
-
+    public function userUpdateImage(Request $request,$id){
         $request->validate([
             'name' => 'required',
             'description' => 'required',

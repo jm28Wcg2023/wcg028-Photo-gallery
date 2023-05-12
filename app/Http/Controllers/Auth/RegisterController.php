@@ -51,12 +51,7 @@ class RegisterController extends Controller
         $this->middleware(['guest']);
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
+    //Validating the data has been Provided
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -67,17 +62,12 @@ class RegisterController extends Controller
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
+    //This Register the User.
     protected function create(array $data)
     {
 
         $referred_by = $data['referred_by'] ?? '';
-        // dd($referred_by);
+
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -101,8 +91,6 @@ class RegisterController extends Controller
 
         //new user welcome bonus transaction.
         $wallet = Wallet::where('user_id',$user->id)->select('id')->first();
-        // dd($wallet);
-
 
         TransactionHistory::create([
             'wallet_id' => $wallet->id,
@@ -112,18 +100,14 @@ class RegisterController extends Controller
         ]);
         //it check if the user has referral code so do  this.
         if($referred_by){
-            // dd($referred_by);
-            // dd($data['referred_by']);
             //get the id of  user based on referral code
             $referral_user_id = User::where('affiliation_link',$data['referred_by'])->select('id')->first();
-            // dd($referral_user_id);
 
             //get the wallet_coin of  user based on referral_user_id
             $referral_user_id_wallet_coin = Wallet::where('user_id',$referral_user_id->id)->select('wallet_coin')->first();
 
             //get the referral_bonus value from Database
             $referral_bonus = Bonus::where('bonus_name','referral_bonus')->select('coins')->first();
-            // dd($referral_bonus);
 
             //get the Current present coin
             $coin = $referral_user_id_wallet_coin->wallet_coin + $referral_bonus->coins;
@@ -159,15 +143,12 @@ class RegisterController extends Controller
     }
 
     public function referralRegister(Request $request){
-
         if(isset($request->ref)){
             $referral_code = $request->ref;
             $userData = User::where('affiliation_link',$referral_code)->get();
 
             if(count($userData) > 0){
-
                 Log::info('New User Come with Referral User Code: '.$referral_code );
-
                 return view('auth.referral-register',compact('referral_code'));
             }else{
                 Log::warning('Invalid Referral Code/Referral User is not Present: '.$referral_code );

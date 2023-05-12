@@ -43,8 +43,13 @@ $(document).ready(function() {
             success:function(data)
             {
                 console.log('data', data);
-                $(".alert-success").css("display", "block");
-                $(".alert-success").append("<p>Bonus Updated Successfully.</p>");
+                // $(".alert-success").css("display", "block");
+                // $(".alert-success").append("<p>Bonus Updated Successfully.</p>");
+                swal({
+                    type: 'success',
+                    html: 'code, ' + data.value
+                });
+
             },
             error:function(xhr, status, error){
                 var errors = xhr.responseJSON.errors;

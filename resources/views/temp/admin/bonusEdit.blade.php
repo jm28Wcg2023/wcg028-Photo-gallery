@@ -13,6 +13,8 @@
     " rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+
 <script src="{{asset('js/bonusedit.js')}}"></script>
 
 @endsection
@@ -77,6 +79,8 @@
     <li class="breadcrumb-item"><a href="{{ route('user') }}">Dashboard</a></li>
     <li class="breadcrumb-item active">Bonus List</li>
 </ol>
+{{-- Sweet Alert --}}
+@include('sweetalert::alert')
 
 <div class="row m-3 p-3 shadow-lg">
     {{-- @if (session('message'))
@@ -85,9 +89,10 @@
         </div>
     @endif --}}
 
-    <div class="alert alert-success" style="display:none">
+    {{-- <div class="alert alert-success" style="display:none">
         {{ Session::get('success') }}
-</div>
+</div> --}}
+
 
     <form id="myForm" data-action="{{route('bonusUpdate',$bonusEdit->id)}}"  method="POST" enctype="multipart/form-data">
         @csrf
@@ -114,7 +119,6 @@
 
 @section('downlinks')
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="{{asset('templete/js/scripts.js')}}"></script>
     {{-- <script src="{{asset('js/bonusedit.js')}}"></script> --}}

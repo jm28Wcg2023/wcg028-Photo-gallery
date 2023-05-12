@@ -122,7 +122,7 @@
         <table class="table table-info caption-top" id="datatablesSimple">
             <thead>
                 <tr>
-                    <th>User ID</th>
+                    {{-- <th>User ID</th> --}}
                     <th>User Name</th>
                     <th>No of Images</th>
                     <th>No of images Purchased</th>
@@ -134,7 +134,7 @@
             <tbody>
                 @foreach ($users as $user)
                     <tr>
-                        <td>{{$user['id']}}</td>
+                        {{-- <td>{{$user['id']}}</td> --}}
                         <td>{{$user['name']}}</td>
                         <td>{{$user['image_count']}}</td>
                         <td>{{$user['user_image_count']}}</td>

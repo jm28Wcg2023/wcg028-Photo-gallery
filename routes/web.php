@@ -129,7 +129,7 @@ Route::post('/changePassword', [HomeController::class, 'changePasswordPost'])->n
 //admin
 Route::group(['middleware' => ['auth', 'admin']], function () {
     //Admin Dashboard
-    Route::get('/admin',[AdminController::class,'AdminView'])->name('admin');
+    Route::get('/admin',[AdminController::class,'adminView'])->name('admin');
 
     //Admin User Add
 
@@ -155,15 +155,15 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     //Admin User List-----------------------------
 
     //Admin Image List -----------------------------
-        Route::get('/admin/imagelist',[AdminController::class,'AdminImageListView'])->name('imagelist');
+        Route::get('/admin/imagelist',[AdminController::class,'adminImageListView'])->name('imagelist');
     //Admin Image List -----------------------------
 
     //Admin Image --------------
         //Admin Edit Image -----------------------------
             //view
-            Route::get('/admin/imagelist/{id}',[AdminController::class,'AdminEditImage'])->name('AdminEditImage');
+            Route::get('/admin/imagelist/{id}',[AdminController::class,'adminEditImage'])->name('AdminEditImage');
             //update
-            Route::put('/admin/imagelist/{id}',[AdminController::class,'AdminUpdateImage'])->name('AdminUpdateImage');
+            Route::put('/admin/imagelist/{id}',[AdminController::class,'adminUpdateImage'])->name('AdminUpdateImage');
         //Admin Edit Image -----------------------------
 
 
@@ -183,7 +183,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
 //user
 Route::group(['middleware' => ['auth', 'user']], function () {
     //User Dashboard
-    Route::get('/user',[UserController::class,'UserView'])->name('user');
+    Route::get('/user',[UserController::class,'userView'])->name('user');
 
     //Image Add form
     Route::get('/user/addimage',[UserController::class,'uploadImage'])->name('addimage');
@@ -198,9 +198,9 @@ Route::group(['middleware' => ['auth', 'user']], function () {
 
     //User Edit Image -----------------------------
         //view
-        Route::get('/user/userimagelist/{id}',[UserController::class,'UserEditImage'])->name('UserEditImage');
+        Route::get('/user/userimagelist/{id}',[UserController::class,'userEditImage'])->name('UserEditImage');
         //update
-        Route::put('/user/userimagelist/{id}',[UserController::class,'UserUpdateImage'])->name('UserUpdateImage');
+        Route::put('/user/userimagelist/{id}',[UserController::class,'userUpdateImage'])->name('UserUpdateImage');
     //User Edit Image -----------------------------
 
     //Image Delete by Admin

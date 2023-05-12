@@ -81,6 +81,8 @@
               <div class="row" id="card-list">
                 {{-- Cards will be dynamically loaded here --}}
             </div>
+
+
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
