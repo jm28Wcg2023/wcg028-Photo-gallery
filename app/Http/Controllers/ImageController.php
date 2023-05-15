@@ -51,46 +51,101 @@ class ImageController extends Controller
 
     public function getImageCards(Request $request)
     {
-        //get the input data from the search input
+        // //get the input data from the search input
+        // $query = $request->input('search');
+        // //get the select value from the select option
+        // $sort = $request->input('sort');
+
+        // $cards = Image::query()->with('user');
+        // // $cards = Image::all();
+        // // dd($cards);
+
+
+        // // this search images by there name and description
+        // if ($query) {
+        //     $cards->where(function($q) use ($query) {
+        //         $q->where('name', 'like', "%{$query}%")
+        //         ->orWhere('description', 'like', "%{$query}%");
+        //     });
+        // }
+
+        // // this sort images by there name in asc/desc and by there coin value
+        // if ($sort == 'name_asc') {
+        //     $cards->orderBy('name');
+        //   } elseif ($sort == 'name_desc') {
+        //     $cards->orderBy('name', 'desc');
+        //   } elseif ($sort == 'coin_asc') {
+        //     $cards->orderBy('coin', 'asc');
+        //   } elseif ($sort == 'coin_desc') {
+        //     $cards->orderBy('coin', 'desc');
+        //   }
+
+        // $cards = $cards->get();
+        // // $cards = $cards->all();
+        // $checkLogin = Auth::check();
+        // if($checkLogin) {
+        //     $user_id = Auth::user()->id;
+        //     $image_own_id= Image::where('user_id',$user_id)->pluck('id')->toArray();
+        //     $imageId = UserImage::where('user_id',$user_id)->pluck('image_id')->toArray();
+        //      // Loop through the cards and add the is_owned and is_purchased variables
+        //     foreach ($cards as $card) {
+        //         $card->is_owned = in_array($card->id, $image_own_id) ;
+        //         $card->is_purchased = in_array($card->id, $imageId);
+        //         $card->$checkLogin;
+        //     }
+        // }
+        // return response()->json($cards);
+                //get the input data from the search input
         $query = $request->input('search');
         //get the select value from the select option
         $sort = $request->input('sort');
 
-        $cards = Image::query()->with('user');
+        // $cards = Image::query()->with('user')->get();
+        $cards = Image::query()->get();
+
+        // Loop through the cards and lazy load the user relationship
+        foreach ($cards as $card) {
+            $card->load('user');
+        }
 
         // this search images by there name and description
         if ($query) {
             $cards->where(function($q) use ($query) {
                 $q->where('name', 'like', "%{$query}%")
-                ->orWhere('description', 'like', "%{$query}%");
+                    ->orWhere('description', 'like', "%{$query}%");
             });
         }
 
         // this sort images by there name in asc/desc and by there coin value
         if ($sort == 'name_asc') {
             $cards->orderBy('name');
-          } elseif ($sort == 'name_desc') {
+        } elseif ($sort == 'name_desc') {
             $cards->orderBy('name', 'desc');
-          } elseif ($sort == 'coin_asc') {
+        } elseif ($sort == 'coin_asc') {
             $cards->orderBy('coin', 'asc');
-          } elseif ($sort == 'coin_desc') {
+        } elseif ($sort == 'coin_desc') {
             $cards->orderBy('coin', 'desc');
-          }
+        }
 
-        $cards = $cards->get();
         $checkLogin = Auth::check();
         if($checkLogin) {
             $user_id = Auth::user()->id;
             $image_own_id= Image::where('user_id',$user_id)->pluck('id')->toArray();
             $imageId = UserImage::where('user_id',$user_id)->pluck('image_id')->toArray();
-             // Loop through the cards and add the is_owned and is_purchased variables
+
+            // Loop through the cards and add the is_owned and is_purchased variables
             foreach ($cards as $card) {
                 $card->is_owned = in_array($card->id, $image_own_id) ;
                 $card->is_purchased = in_array($card->id, $imageId);
                 $card->$checkLogin;
+
+                // Lazy load the user relationship for each card
+                // $card->load('user');
             }
         }
+
         return response()->json($cards);
+
     }
 
 
@@ -182,22 +237,22 @@ class ImageController extends Controller
 
     }
 
-    public function demo(UploadRequest $request)
+    public function demo(Request $request)
     {
         $user = Auth::user()->id;
         //start
-        // $validator = Validator::make($request->all(), [
-        //     'images' => 'required',
-        //     'images.*' => 'mimes:jpeg,png,jpg|max:2048',
-        //     'titles.*' => 'required',
-        //     'descriptions.*' => 'required',
-        //     'coins.*' => 'required|numeric',
-        // ], [
-        //     'required' => 'The :attribute field is required.',
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'images' => 'required',
+            'images.*' => 'mimes:jpeg,png,jpg|max:2048',
+            'titles.*' => 'required',
+            'descriptions.*' => 'required',
+            'coins.*' => 'required|numeric',
+        ], [
+            'required' => 'The :attribute field is required.',
+        ]);
         //end
 
-        if ($request->fails()) {
+        if ($validator->fails()) {
 
 
             // return redirect()->back()->withErrors($validator);

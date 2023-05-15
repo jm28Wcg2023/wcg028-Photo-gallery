@@ -14,10 +14,20 @@ class CreateUserImageTable extends Migration
     public function up()
     {
         Schema::create('user_image', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->unsignedBigInteger('image_id');
-            $table->foreign('image_id')->references('id')->on('images')->onUpdate('cascade')->onDelete('cascade');
+            // $table->unsignedBigInteger('user_id');
+            // $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('user_id');
+            $table->index('user_id');
+
+            // $table->index('user_id');
+            $table->string('image_id');
+            $table->index('image_id');
+
+
+            // $table->index('image_id');
+
+            // $table->unsignedBigInteger('image_id');
+            // $table->foreign('image_id')->references('id')->on('images')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

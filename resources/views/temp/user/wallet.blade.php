@@ -94,13 +94,14 @@
             <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
             <div class="accordion-body">
                 <div class="row">
-                    <table class="table caption-top wallet-table" >
+                    <table class="table caption-top wallet-table" id="dt-table">
                         <thead>
                             <tr>
                                 <th>id</th>
                                 <th>Transaction Description</th>
                                 <th>wallet Transction type</th>
                                 <th>Transaction Amount</th>
+                                <th>Time</th>
                             </tr>
                         </thead>
                         <tbody>

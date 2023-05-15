@@ -14,9 +14,12 @@ class CreateTransactionHistoriesTable extends Migration
     public function up()
     {
         Schema::create('transaction_histories', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('wallet_id');
-            $table->foreign('wallet_id')->references('id')->on('wallets')->onUpdate('cascade')->onDelete('cascade');
+            $table->uuid('id');
+            $table->index('id');
+            $table->string('wallet_id');
+            // $table->index('wallet_id');
+            // $table->unsignedBigInteger('wallet_id');
+            // $table->foreign('wallet_id')->references('id')->on('wallets')->onUpdate('cascade')->onDelete('cascade');
             $table->enum('transaction_type',['credit','debit']);
             $table->string('transaction_amount');
             $table->string('description');

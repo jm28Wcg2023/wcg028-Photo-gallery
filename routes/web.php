@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\DemoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\RedirectAuthenticatedUsersController;
@@ -109,7 +109,7 @@ Auth::routes([
 ]);
 
 //Home Page
-Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('verified');;
+Route::get('/home', [ChangePasswordController::class, 'index'])->name('home')->middleware('verified');;
 
 //Market
 Route::get('/Market', [ImageController::class, 'index'])->name('market');
@@ -123,8 +123,8 @@ Route::get('/cards', [ImageController::class, 'getImageCards'])->name('cards');
 Route::get('/referral-register',[RegisterController::class,'referralRegister'])->name('referralRegister');
 
 //change password view
-Route::get('/changePassword', [HomeController::class, 'showChangePasswordGet'])->name('changePasswordGet');
-Route::post('/changePassword', [HomeController::class, 'changePasswordPost'])->name('changePasswordPost');
+Route::get('/changePassword', [ChangePasswordController::class, 'showChangePasswordGet'])->name('changePasswordGet');
+Route::post('/changePassword', [ChangePasswordController::class, 'changePasswordPost'])->name('changePasswordPost');
 
 //admin
 Route::group(['middleware' => ['auth', 'admin']], function () {
@@ -191,7 +191,7 @@ Route::group(['middleware' => ['auth', 'user']], function () {
 
     //wallet
     Route::get('/user/wallet',[UserController::class,'userWallet'])->name('wallet');
-    Route::get('/user/wallets',[UserController::class,'walletData'])->name('walletdata');
+    Route::post('/user/wallets',[UserController::class,'walletData'])->name('walletdata');
 
     //User Image List
     Route::get('/user/userimagelist',[ImageViewController::class,'userImageList'])->name('userimagelist');

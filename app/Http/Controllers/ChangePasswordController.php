@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Hash;
 use Auth;
 
-class HomeController extends Controller
+class ChangePasswordController extends Controller
 {
     /**
      * Create a new controller instance.

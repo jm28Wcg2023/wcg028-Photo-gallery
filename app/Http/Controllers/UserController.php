@@ -50,10 +50,11 @@ class UserController extends Controller
 
         if ($request->ajax()) {
 
-            $login_user_transaction_history = User::where('id','=',$login_user_id)->with('transaction_histories')->latest()->get();
+            $login_user_transaction_history = User::where('id','=',$login_user_id)->with('transaction_histories')->get();
 
             return Datatables::of($login_user_transaction_history[0]['transaction_histories'])
                                                                                             ->addIndexColumn()
+                                                                                            // ->orderColumn('created_at', true)
                                                                                             ->rawColumns(['action'])
                                                                                             ->make(true);
         }

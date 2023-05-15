@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use App\Traits\Uuids;
+
 
 
 class Image extends Model
 {
-    use HasFactory,SoftDeletes,Notifiable;
+    use HasFactory,SoftDeletes,Notifiable, Uuids;
 
     protected $fillable = [
                             'name',

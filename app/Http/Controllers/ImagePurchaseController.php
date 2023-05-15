@@ -28,6 +28,7 @@ class ImagePurchaseController extends Controller
         $wallet_id = Wallet::where('user_id',$user)->select('id')->first();
         $wallet_coin = $wallet->wallet_coin;
 
+        // dd($image->id);
         //checks the user has coins if "true" goes inside else return with error
         if($wallet_coin >= $image_coin){
             UserImage::create([

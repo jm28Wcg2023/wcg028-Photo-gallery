@@ -14,7 +14,8 @@ class CreateBonusesTable extends Migration
     public function up()
     {
         Schema::create('bonuses', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id');
+            $table->index('id');
             $table->string('bonus_name');
             $table->string('coins');
 
