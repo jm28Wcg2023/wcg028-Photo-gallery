@@ -168,7 +168,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
 
 
 
-        Route::get('/admin/imagelist', [ImageController::class, 'imagelist'])->name('imagelist');
+        Route::get('/admin/imagelist', [ImageController::class, 'imageList'])->name('imagelist');
 
         //Image Delete by Admin
         Route::delete('admin/imagelists/{id}', [ImageController::class, 'deleteImage'])->name('ImageDeleteAdmin');
@@ -208,6 +208,8 @@ Route::group(['middleware' => ['auth', 'user']], function () {
 
     //Image Upload form view
     Route::get('/upload', [ImageController::class, 'create'])->name('images.create');
+
+    Route::post('images/upload',[ImageController::class,'demo'])->name('images.upload');
 
     //Image Upload form submit
     Route::post('addmore',[ImageController::class,'addMoreImage'])->name('addmorePost');

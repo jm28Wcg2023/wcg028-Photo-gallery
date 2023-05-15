@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Image;
 use Illuminate\Support\Facades\Validator;
 use DataTables;
+use App\Http\Requests\userUpdateImageRequest;
 
 class UserController extends Controller
 {
@@ -65,12 +66,12 @@ class UserController extends Controller
     }
 
     // User Image Data Update
-    public function userUpdateImage(Request $request,$id){
-        $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'coin' => 'required',
-        ]);
+    public function userUpdateImage(userUpdateImageRequest $request,$id){
+        // $request->validate([
+        //     'name' => 'required',
+        //     'description' => 'required',
+        //     'coin' => 'required',
+        // ]);
 
         $imageData = Image::find($id);
         $imageData->name = $request->input('name');

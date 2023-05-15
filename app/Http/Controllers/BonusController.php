@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Bonus;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Http\Requests\BonusEditRequest;
 
 class BonusController extends Controller
 {
@@ -22,12 +23,12 @@ class BonusController extends Controller
     }
 
     //Bonus Update function
-    public function bonusUpdate(Request $request,$id){
+    public function bonusUpdate(BonusEditRequest $request,$id){
         // dd($id);
-        $request->validate([
-            'bonus_name' => 'required',
-            'coins' => 'required'
-        ]);
+        // $request->validate([
+        //     'bonus_name' => 'required',
+        //     'coins' => 'required'
+        // ]);
 
         $bonusUpdate = Bonus::find($id);
         $bonusUpdate->bonus_name = $request->input('bonus_name');

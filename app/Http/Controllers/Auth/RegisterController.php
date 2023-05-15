@@ -16,6 +16,9 @@ use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeEmail;
+use App\Mail\ReferralEmail;
 
 
 
@@ -98,6 +101,11 @@ class RegisterController extends Controller
             'transaction_amount' => $welcome_bonus->coins,
             'description' => 'WELCOME BONUS'.' At: '.date('Y-m-d H:i:s'),
         ]);
+
+        if($referred_by == ''){
+            // Mail::to($user->email)->send(new WelcomeEmail($user));
+            Mail::to($user->email)->send(new WelcomeEmail($data['name'], $data['email']));
+        }
         //it check if the user has referral code so do  this.
         if($referred_by){
             //get the id of  user based on referral code
@@ -136,6 +144,8 @@ class RegisterController extends Controller
                     'transaction_amount' => $referral_bonus->coins,
                     'description' => 'REFERRAL BONUS'.' At: '.date('Y-m-d H:i:s'),
                 ]);
+
+                Mail::to($user->email)->send(new ReferralEmail($user));
             }
         }
 

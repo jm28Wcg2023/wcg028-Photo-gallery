@@ -43,13 +43,16 @@ $(document).ready(function() {
             success:function(data)
             {
                 console.log('data', data);
-                // $(".alert-success").css("display", "block");
-                // $(".alert-success").append("<p>Bonus Updated Successfully.</p>");
-                swal({
-                    type: 'success',
-                    html: 'code, ' + data.value
-                });
-
+                // swal({
+                //     type: 'success',
+                //     html: 'code, ' + data.value
+                // });
+                Swal.fire(
+                    'Bonus Updated!',
+                    'Bonus updated Successfully!',
+                    'success'
+                )
+                window.location = "/admin/bonus";
             },
             error:function(xhr, status, error){
                 var errors = xhr.responseJSON.errors;

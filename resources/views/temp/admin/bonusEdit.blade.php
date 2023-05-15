@@ -28,7 +28,7 @@
         pointer-events: none;
         background-color: lightgray;
     }
-    #coins-error{
+    #coins-error, #bonus_name-error{
         color :red;
     }
 </style>
