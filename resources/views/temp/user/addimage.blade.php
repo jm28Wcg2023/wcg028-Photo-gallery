@@ -147,7 +147,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('images.upload') }}" id="myForm" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('images.upload') }}" data-route="{{ route('images.upload') }}" id="myForm" enctype="multipart/form-data" >
         @csrf
 
         <div class="form-group">
@@ -178,107 +178,107 @@
 
 </div>
 <script>
-    $(document).ready(function() {
+//     $(document).ready(function() {
 
-        var count = 0;
-        $('input[type=file]').change(function(e) {
-            $('#image-table').html('');
-            var files = e.target.files;
+//         var count = 0;
+//         $('input[type=file]').change(function(e) {
+//             $('#image-table').html('');
+//             var files = e.target.files;
 
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
-                var filename = file.name;
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    var html = `
-                        <tr id="row-${count}" data-rowid="">
-                            <td>
-                                <img src="${e.target.result}" width="100">
-                            </td>
-                            <td>
-                                <div class="form-group">
-                                    <label for="title-${count}">Title:</label>
-                                    <input type="text" class="form-control checkName  @error('titles.*') is-invalid @enderror" name="titles[]" id="title-${count}" >
-                                    <span class="text-danger" id="titles_${count}_error"></span>
-                                    {{--@error('titles.*')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror--}}
-                                    {{--@error('titles.${count}')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror--}}
-                                    {{--<div class="invalid-feedback error-title-${count}"></div>--}}
-                                </div>
-                            </td>
-                            <td>
-                                <div class="form-group">
-                                    <label for="description-${count}">Description:</label>
-                                    <input type="text" class="form-control checkDescription  @error('descriptions.*') is-invalid @enderror" name="descriptions[]" id="description-${count}" >
-                                    <span class="text-danger" id="descriptions_${count}_error"></span>
+//             for (var i = 0; i < files.length; i++) {
+//                 var file = files[i];
+//                 var filename = file.name;
+//                 var reader = new FileReader();
+//                 reader.onload = function(e) {
+//                     var html = `
+//                         <tr id="row-${count}" data-rowid="">
+//                             <td>
+//                                 <img src="${e.target.result}" width="100">
+//                             </td>
+//                             <td>
+//                                 <div class="form-group">
+//                                     <label for="title-${count}">Title:</label>
+//                                     <input type="text" class="form-control checkName  @error('titles.*') is-invalid @enderror" name="titles[]" id="title-${count}" >
+//                                     <span class="text-danger" id="titles_${count}_error"></span>
+//                                     {{--@error('titles.*')
+//                                         <div class="invalid-feedback">{{ $message }}</div>
+//                                     @enderror--}}
+//                                     {{--@error('titles.${count}')
+//                                         <div class="alert alert-danger">{{ $message }}</div>
+//                                     @enderror--}}
+//                                     {{--<div class="invalid-feedback error-title-${count}"></div>--}}
+//                                 </div>
+//                             </td>
+//                             <td>
+//                                 <div class="form-group">
+//                                     <label for="description-${count}">Description:</label>
+//                                     <input type="text" class="form-control checkDescription  @error('descriptions.*') is-invalid @enderror" name="descriptions[]" id="description-${count}" >
+//                                     <span class="text-danger" id="descriptions_${count}_error"></span>
 
-                                    {{--@error('descriptions.*')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror--}}
-                                    {{--@error('descriptions.${count}')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror--}}
-                                    {{--<div class="invalid-feedback error-description-${count}"></div>--}}
-                                </div>
-                            </td>
-                            <td>
-                                <div class="form-group">
-                                    <label for="coin-${count}">Coin:</label>
-                                    <input type="number" class="form-control checkCoin  @error('coins.*') is-invalid @enderror" name="coins[]" id="coin-${count}" >
-                                    <span class="text-danger" id="coins_${count}_error"></span>
-                                    {{--@error('coins.*')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror--}}
-                                    {{-- @error('coins.${count}')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror--}}
-                                    {{--<div class="invalid-feedback error-coin-${count}"></div>--}}
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                    $('#image-table').append(html);
-                    count++;
-                };
-                reader.readAsDataURL(file);
-            }
+//                                     {{--@error('descriptions.*')
+//                                         <div class="invalid-feedback">{{ $message }}</div>
+//                                     @enderror--}}
+//                                     {{--@error('descriptions.${count}')
+//                                         <div class="alert alert-danger">{{ $message }}</div>
+//                                     @enderror--}}
+//                                     {{--<div class="invalid-feedback error-description-${count}"></div>--}}
+//                                 </div>
+//                             </td>
+//                             <td>
+//                                 <div class="form-group">
+//                                     <label for="coin-${count}">Coin:</label>
+//                                     <input type="number" class="form-control checkCoin  @error('coins.*') is-invalid @enderror" name="coins[]" id="coin-${count}" >
+//                                     <span class="text-danger" id="coins_${count}_error"></span>
+//                                     {{--@error('coins.*')
+//                                         <div class="invalid-feedback">{{ $message }}</div>
+//                                     @enderror--}}
+//                                     {{-- @error('coins.${count}')
+//                                         <div class="alert alert-danger">{{ $message }}</div>
+//                                     @enderror--}}
+//                                     {{--<div class="invalid-feedback error-coin-${count}"></div>--}}
+//                                 </div>
+//                             </td>
+//                         </tr>
+//                     `;
+//                     $('#image-table').append(html);
+//                     count++;
+//                 };
+//                 reader.readAsDataURL(file);
+//             }
 
-        });
+//         });
 
-        // $('#myForm').submit(function(e) {
-        $('#myForm').on('submit', function (e) {
-            e.preventDefault();
-            var formData = new FormData(this);
+//         // $('#myForm').submit(function(e) {
+//         $('#myForm').on('submit', function (e) {
+//             e.preventDefault();
+//             var formData = new FormData(this);
 
-            $.ajax({
-                url: "{{ route('images.upload') }}",
-                type:"POST",
-                data: formData,
-                dataType: 'json',
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    // handle success
-                    $('#myForm')[0].reset();
-                    $('#image-table').html('');
+//             $.ajax({
+//                 url: "{{ route('images.upload') }}",
+//                 type:"POST",
+//                 data: formData,
+//                 dataType: 'json',
+//                 cache: false,
+//                 contentType: false,
+//                 processData: false,
+//                 success: function(response) {
+//                     // handle success
+//                     $('#myForm')[0].reset();
+//                     $('#image-table').html('');
 
-                },
-                error: function(xhr, status, error) {
-                    var errors = xhr.responseJSON.errors;
-                    $.each(errors, function (key, value) {
-                    var id = key.replace(/\./g, "_");
-                    var newvar = key.replace(/\./g, "-");
-                    $("#" + id + "_error").text(value[0]);
-                    $("#" + newvar).addClass("is-invalid");
-                    });
-                }
-            });
-        });
-});
+//                 },
+//                 error: function(xhr, status, error) {
+//                     var errors = xhr.responseJSON.errors;
+//                     $.each(errors, function (key, value) {
+//                         var id = key.replace(/\./g, "_");
+//                         var newvar = key.replace(/\./g, "-");
+//                         $("#" + id + "_error").text(value[0]);
+//                         $("#" + newvar).addClass("is-invalid");
+//                     });
+//                 }
+//             });
+//         });
+// });
 
 // function displayErrors(errors) {
 //     // iterate through the errors object and display the messages
@@ -317,3 +317,4 @@
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="{{ asset('templete/js/datatables-simple-demo.js')}}"></script>
 @endsection
+

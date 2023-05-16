@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title')</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <!-- Laravel Javascript Validation -->
+    <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
     @yield('uplinks')
 </head>
 <body class="sb-nav-fixed">
@@ -29,5 +31,6 @@
     </div>
 
     @yield('downlinks')
+    @yield('js-validation')
 </body>
 </html>

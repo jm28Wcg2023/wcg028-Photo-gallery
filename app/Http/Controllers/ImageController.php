@@ -42,109 +42,165 @@ class ImageController extends Controller
     }
 
     // market view
-    public function index(Request $request)
-    {
-        $images = Image::latest()->with('user')->paginate(15);
-        return view('market', compact('images'));
+    // public function index(Request $request)
+    // {
+    //     $images = Image::latest()->with('user')->paginate(15);
+    //     return view('market', compact('images'));
+    // }
+
+
+    // public function getImageCards(Request $request)
+    // {
+    //     //get the input data from the search input
+    //     $query = $request->input('search');
+    //     //get the select value from the select option
+    //     $sort = $request->input('sort');
+
+    //     $cards = Image::query()->with('user');
+    //     // $cards = Image::paginate('10');
+
+    //     // $cards = Image::all();
+    //     // dd($cards);
+
+
+    //     // this search images by there name and description
+    //     if ($query) {
+    //         $cards->where(function($q) use ($query) {
+    //             $q->where('name', 'like', "%{$query}%")
+    //             ->orWhere('description', 'like', "%{$query}%");
+    //         });
+    //     }
+
+    //     // this sort images by there name in asc/desc and by there coin value
+    //     if ($sort == 'name_asc') {
+    //         $cards->orderBy('name');
+    //       } elseif ($sort == 'name_desc') {
+    //         $cards->orderBy('name', 'desc');
+    //       } elseif ($sort == 'coin_asc') {
+    //         $cards->orderBy('coin', 'asc');
+    //       } elseif ($sort == 'coin_desc') {
+    //         $cards->orderBy('coin', 'desc');
+    //       }
+
+    //     $cards = $cards->get();
+    //     // $cards = $cards;
+    //     // $cards = $cards->all();
+    //     $checkLogin = Auth::check();
+    //     if($checkLogin) {
+    //         $user_id = Auth::user()->id;
+    //         $image_own_id= Image::where('user_id',$user_id)->pluck('id')->toArray();
+    //         $imageId = UserImage::where('user_id',$user_id)->pluck('image_id')->toArray();
+    //          // Loop through the cards and add the is_owned and is_purchased variables
+    //         foreach ($cards as $card) {
+    //             $card->is_owned = in_array($card->id, $image_own_id) ;
+    //             $card->is_purchased = in_array($card->id, $imageId);
+    //             $card->$checkLogin;
+    //         }
+    //     }
+    //     return response()->json($cards);
+
+    //     // //get the input data from the search input
+    //     // $query = $request->input('search');
+    //     // //get the select value from the select option
+    //     // $sort = $request->input('sort');
+
+    //     // // $cards = Image::query()->with('user')->get();
+    //     // $cards = Image::query()->get();
+
+    //     // // Loop through the cards and lazy load the user relationship
+    //     // foreach ($cards as $card) {
+    //     //     $card->load('user');
+    //     // }
+
+    //     // // this search images by there name and description
+    //     // if ($query) {
+    //     //     $cards->where(function($q) use ($query) {
+    //     //         $q->where('name', 'like', "%{$query}%")
+    //     //             ->orWhere('description', 'like', "%{$query}%");
+    //     //     });
+    //     // }
+
+    //     // // this sort images by there name in asc/desc and by there coin value
+    //     // if ($sort == 'name_asc') {
+    //     //     $cards->orderBy('name');
+    //     // } elseif ($sort == 'name_desc') {
+    //     //     $cards->orderBy('name', 'desc');
+    //     // } elseif ($sort == 'coin_asc') {
+    //     //     $cards->orderBy('coin', 'asc');
+    //     // } elseif ($sort == 'coin_desc') {
+    //     //     $cards->orderBy('coin', 'desc');
+    //     // }
+
+    //     // $checkLogin = Auth::check();
+    //     // if($checkLogin) {
+    //     //     $user_id = Auth::user()->id;
+    //     //     $image_own_id= Image::where('user_id',$user_id)->pluck('id')->toArray();
+    //     //     $imageId = UserImage::where('user_id',$user_id)->pluck('image_id')->toArray();
+
+    //     //     // Loop through the cards and add the is_owned and is_purchased variables
+    //     //     foreach ($cards as $card) {
+    //     //         $card->is_owned = in_array($card->id, $image_own_id) ;
+    //     //         $card->is_purchased = in_array($card->id, $imageId);
+    //     //         $card->$checkLogin;
+
+    //     //         // Lazy load the user relationship for each card
+    //     //         // $card->load('user');
+    //     //     }
+    //     // }
+    //     // // dd($cards);
+
+    //     // return response()->json($cards);
+
+    // }
+
+    public function lazyLoadMarket(){
+        return view('temp.user.lazyload');
     }
-
-
-    public function getImageCards(Request $request)
+    public function lazyLoadData(Request $request)
     {
-        // //get the input data from the search input
-        // $query = $request->input('search');
-        // //get the select value from the select option
-        // $sort = $request->input('sort');
-
-        // $cards = Image::query()->with('user');
-        // // $cards = Image::all();
-        // // dd($cards);
-
-
-        // // this search images by there name and description
-        // if ($query) {
-        //     $cards->where(function($q) use ($query) {
-        //         $q->where('name', 'like', "%{$query}%")
-        //         ->orWhere('description', 'like', "%{$query}%");
-        //     });
-        // }
-
-        // // this sort images by there name in asc/desc and by there coin value
-        // if ($sort == 'name_asc') {
-        //     $cards->orderBy('name');
-        //   } elseif ($sort == 'name_desc') {
-        //     $cards->orderBy('name', 'desc');
-        //   } elseif ($sort == 'coin_asc') {
-        //     $cards->orderBy('coin', 'asc');
-        //   } elseif ($sort == 'coin_desc') {
-        //     $cards->orderBy('coin', 'desc');
-        //   }
-
-        // $cards = $cards->get();
-        // // $cards = $cards->all();
-        // $checkLogin = Auth::check();
-        // if($checkLogin) {
-        //     $user_id = Auth::user()->id;
-        //     $image_own_id= Image::where('user_id',$user_id)->pluck('id')->toArray();
-        //     $imageId = UserImage::where('user_id',$user_id)->pluck('image_id')->toArray();
-        //      // Loop through the cards and add the is_owned and is_purchased variables
-        //     foreach ($cards as $card) {
-        //         $card->is_owned = in_array($card->id, $image_own_id) ;
-        //         $card->is_purchased = in_array($card->id, $imageId);
-        //         $card->$checkLogin;
-        //     }
-        // }
-        // return response()->json($cards);
-                //get the input data from the search input
-        $query = $request->input('search');
-        //get the select value from the select option
+        $search = $request->input('search');
         $sort = $request->input('sort');
 
-        // $cards = Image::query()->with('user')->get();
-        $cards = Image::query()->get();
+        $query = Image::query();
 
-        // Loop through the cards and lazy load the user relationship
-        foreach ($cards as $card) {
-            $card->load('user');
+        // Apply search filter if provided
+        if ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
         }
 
-        // this search images by there name and description
-        if ($query) {
-            $cards->where(function($q) use ($query) {
-                $q->where('name', 'like', "%{$query}%")
-                    ->orWhere('description', 'like', "%{$query}%");
-            });
-        }
-
-        // this sort images by there name in asc/desc and by there coin value
-        if ($sort == 'name_asc') {
-            $cards->orderBy('name');
-        } elseif ($sort == 'name_desc') {
-            $cards->orderBy('name', 'desc');
-        } elseif ($sort == 'coin_asc') {
-            $cards->orderBy('coin', 'asc');
-        } elseif ($sort == 'coin_desc') {
-            $cards->orderBy('coin', 'desc');
-        }
-
-        $checkLogin = Auth::check();
-        if($checkLogin) {
-            $user_id = Auth::user()->id;
-            $image_own_id= Image::where('user_id',$user_id)->pluck('id')->toArray();
-            $imageId = UserImage::where('user_id',$user_id)->pluck('image_id')->toArray();
-
-            // Loop through the cards and add the is_owned and is_purchased variables
-            foreach ($cards as $card) {
-                $card->is_owned = in_array($card->id, $image_own_id) ;
-                $card->is_purchased = in_array($card->id, $imageId);
-                $card->$checkLogin;
-
-                // Lazy load the user relationship for each card
-                // $card->load('user');
+        // Apply sort criteria if provided
+        if ($sort) {
+            if ($sort === 'lazyname_asc') {
+                $query->orderBy('name', 'asc');
+            } elseif ($sort === 'lazyname_desc') {
+                $query->orderBy('name', 'desc');
+            } elseif ($sort === 'price_asc') {
+                $query->orderBy('coin', 'asc');
+            } elseif ($sort === 'price_desc') {
+                $query->orderBy('coin', 'desc');
             }
         }
+        $images = $query->paginate(6);
 
-        return response()->json($cards);
+        if(Auth::check()){
+            $user = Auth::user()->id;
+            $user_id = Auth::user()->id;
+            $image_own_id= Image::where('user_id',$user_id)->pluck('id')->toArray();
+
+            $imageId = UserImage::where('user_id',$user_id)->pluck('image_id')->toArray();
+            if ($request->ajax()) {
+
+                $view = view('data', compact('images','imageId','image_own_id'))->render();
+                return response()->json(['html' => $view]);
+            }
+            return view('temp.user.lazyload', compact('images','imageId','image_own_id'));
+        }
+        if ($request->ajax()) {
+
+            $view = view('data', compact('images'))->render();
+            return response()->json(['html' => $view]);
+        }
+        return view('temp.user.lazyload', compact('images'));
 
     }
 
@@ -155,7 +211,6 @@ class ImageController extends Controller
 
         $image = Image::find($id);
 
-
         //Remove image From the Public Folder
         unlink("images/".$image->image_path);
 
@@ -165,16 +220,13 @@ class ImageController extends Controller
         $user = Auth::user();
 
         if(Auth::user()->role == 0){
+            // Send email to user when admin delete the image
             $email = Auth::user()->where('role',1)->select('email')->first();
             Mail::to($email)->send(new ImageDeleted($user, $image));
 
             return redirect()->route('userimagelist');
         }
-        // Send email to admin
-
-
-        // $user = Auth::user();
-
+        // Send email to admin when user delete the image
         $email = Auth::user()->where('id',$image->user_id)->select('email')->first();
         Mail::to($email)->send(new UserImageDeleted($user, $image));
 
@@ -237,32 +289,26 @@ class ImageController extends Controller
 
     }
 
-    public function demo(Request $request)
+    //Image Uploaded here from Dynamic select images view
+    public function dynamicImageUploadForm(UploadRequest $request)
     {
+        // dd($request->all());
         $user = Auth::user()->id;
         //start
-        $validator = Validator::make($request->all(), [
-            'images' => 'required',
-            'images.*' => 'mimes:jpeg,png,jpg|max:2048',
-            'titles.*' => 'required',
-            'descriptions.*' => 'required',
-            'coins.*' => 'required|numeric',
-        ], [
-            'required' => 'The :attribute field is required.',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'images' => 'required',
+        //     'images.*' => 'mimes:jpeg,png,jpg|max:2048',
+        //     'titles.*' => 'required',
+        //     'descriptions.*' => 'required',
+        //     'coins.*' => 'required|numeric',
+        // ], [
+        //     'required' => 'The :attribute field is required.',
+        // ]);
         //end
-
-        if ($validator->fails()) {
-
-
-            // return redirect()->back()->withErrors($validator);
-
-            return Response::json(array(
-                // 'success' => false,
-                'errors' => $validator->getMessageBag()->toArray()
-
-            ), 400);
-        }
+        // $validator = $request->validate();
+        // if ($validator->fails()) {
+        //     return Response::json(array('errors' => $validator->getMessageBag()->toArray()), 400);
+        // }
 
         $images = [];
 
@@ -323,10 +369,6 @@ class ImageController extends Controller
         Alert::success('Success', 'You\'ve Successfully Uploaded Images');
 
         return response()->json(['success' => true]);
-
-        // return redirect()->route('userimagelist')->with('success', 'Images uploaded successfully.');
-        // return response()->json(['success' => 'Images uploaded successfully.']);
-
     }
 
 

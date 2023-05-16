@@ -24,7 +24,7 @@ class AdminController extends Controller
     }
 
     //View the Present User-List in the Admin view
-    public function AdminUserListView(){
+    public function adminUserListView(){
         $users = User::where('role',0)
                             ->withCount('image')
                             ->withCount('user_image')
@@ -46,18 +46,6 @@ class AdminController extends Controller
         return view('temp.admin.admineditimage',compact('imageData'));
     }
 
-    //Update Image from Admin
-    public function adminUpdateImage(Request $request,$id){
-
-        $imageData = Image::find($id);
-        $imageData->name = $request->input('name');
-        $imageData->description = $request->input('description');
-        $imageData->coin = $request->input('coin');
-
-        $imageData->update();
-        return redirect()->route('imagelist')->with('success', 'Images uploaded successfully.');
-    }
-
     public function deleteUser($id){
         $data = User::find($id);
 
@@ -77,13 +65,11 @@ class AdminController extends Controller
     public function updateUser(UpdateUserRequest $request, $id){
 
         $userData = User::find($id);
-        $userData->name = $request->input('name');
-        $userData->email = $request->input('email');
-        $userData->phone = $request->input('phone');
+        if ($userData) {
+            $userData->update($request->all());
+        }
 
-        $userData->update();
-
-        Alert::success('Success', 'You\'ve Data updated Successfully');
+        Alert::success('Success', 'You\'ve updated User Data Successfully');
         return redirect()->route('userlist');
     }
 }

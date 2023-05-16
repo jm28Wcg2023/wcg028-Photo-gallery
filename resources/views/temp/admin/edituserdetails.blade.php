@@ -55,31 +55,31 @@
         <li class="breadcrumb-item active">Edit User Details</li>
     </ol>
     <div class="container px-5 my-5 shadow-lg py-5">
-        <form action="{{route('updateUser',$userData->id)}}" method="POST" enctype="multipart/form-data">
+        <form action="{{route('updateUser',$userData->id)}}" method="POST" enctype="multipart/form-data" id="sample">
             @csrf
             @method('PUT')
             <div class="form-group my-4">
                 <label for="name">Name</label>
                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{$userData->name}}" >
-                @error('name')
+                {{-- @error('name')
                     <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+                @enderror --}}
             </div>
 
             <div class="form-group my-4">
                 <label for="email">Email</label>
                 <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{$userData->email}}">
-                @error('email')
+                {{-- @error('email')
                     <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+                @enderror --}}
             </div>
 
             <div class="form-group my-4">
                 <label for="coin">Phone</label>
                 <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{$userData->phone}}">
-                @error('phone')
+                {{-- @error('phone')
                     <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+                @enderror --}}
             </div>
             <button type="submit" class="btn btn-primary">Update</button>
         </form>
@@ -95,9 +95,10 @@
     {{-- Old --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="{{ asset('templete/js/scripts.js')}}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="{{ asset('templete/assets/demo/chart-area-demo.js')}}"></script>
-    <script src="{{ asset('templete/assets/demo/chart-bar-demo.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="{{ asset('templete/js/datatables-simple-demo.js')}}"></script>
+@endsection
+
+@section('js-validation')
+{!! JsValidator::formRequest('App\Http\Requests\UpdateUserRequest', '#sample') !!}
 @endsection

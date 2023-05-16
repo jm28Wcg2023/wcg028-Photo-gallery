@@ -68,18 +68,12 @@ class UserController extends Controller
 
     // User Image Data Update
     public function userUpdateImage(userUpdateImageRequest $request,$id){
-        // $request->validate([
-        //     'name' => 'required',
-        //     'description' => 'required',
-        //     'coin' => 'required',
-        // ]);
-
         $imageData = Image::find($id);
-        $imageData->name = $request->input('name');
-        $imageData->description = $request->input('description');
-        $imageData->coin = $request->input('coin');
 
-        $imageData->update();
+        if ($imageData) {
+            $requestData = $request->only(['name', 'description', 'coin']);
+            $imageData->update($requestData);
+        }
 
         return response()->json(['success'=>'done']);
     }

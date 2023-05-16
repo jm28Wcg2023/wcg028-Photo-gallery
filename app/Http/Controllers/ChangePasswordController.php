@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Hash;
 use Auth;
+use App\Http\Requests\changePasswordRequest;
 
 class ChangePasswordController extends Controller
 {
@@ -36,7 +37,7 @@ class ChangePasswordController extends Controller
     }
 
     //Admin, User Change password Route
-    public function changePasswordPost(Request $request) {
+    public function changePasswordPost(changePasswordRequest $request) {
         if (!(Hash::check($request->get('current-password'), Auth::user()->password))) {
             // The passwords matches
             return redirect()->back()->with("error","Your current password does not matches with the password.");
@@ -47,10 +48,10 @@ class ChangePasswordController extends Controller
             return redirect()->back()->with("error","New Password cannot be same as your current password.");
         }
         //Change Password Validation
-        $validatedData = $request->validate([
-            'current-password' => 'required',
-            'new-password' => 'required|string|min:8|confirmed',
-        ]);
+        // $validatedData = $request->validate([
+        //     'current-password' => 'required',
+        //     'new-password' => 'required|string|min:8|confirmed',
+        // ]);
 
         //Change Password
         $user = Auth::user();

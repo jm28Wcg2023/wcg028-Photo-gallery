@@ -8,7 +8,7 @@ $(function () {
         processing: true,
         serverSide: true,
         serverMethod: 'post',
-        order: [[ 4, "asc" ]],
+        order: [[ 4, "desc" ]],
         ajax: "/user/wallets",
         columns: [
             {data:'id',name: 'id','orderable': false},

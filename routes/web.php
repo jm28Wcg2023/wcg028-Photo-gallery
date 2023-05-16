@@ -1,25 +1,26 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+//Auth Controllers
 use App\Http\Controllers\ChangePasswordController;
-use App\Http\Controllers\DemoController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\RedirectAuthenticatedUsersController;
+
+//Controllers
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\UploadController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ImageViewController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\BonusController;
 use App\Http\Controllers\ImagePurchaseController;
-use App\Http\Controllers\MarketController;
-use App\Models\TransactionHistory;
+//Models
 use App\Models\Image;
 use App\Models\User;
 use App\Models\UserImage;
 use App\Models\Wallet;
 use App\Models\Bonus;
+use App\Models\TransactionHistory;
 
 
 
@@ -39,68 +40,13 @@ Route::get('/', function () {
 });
 
 //Testing Routes Below
+
 //-----------------------------------------------------------------------------------------------------------//
-Route::get('/sample',function(){
-    return view('temp.sample');
-});
-Route::get('/hello',function(){
-    // $wallet = Wallet::select('wallet_coin')->where('id','=','1')->first();
-    // dd($wallet->wallet_coin+5);
-    $welcome_bonus = Bonus::where('id',1)->select('welcome_bonus')->first();
-    dd($welcome_bonus->welcome_bonus);
-});
+//Market
+// Route::get('/Market', [ImageController::class, 'index'])->name('market');
 
-Route::get('/newlogin',function(){
-    // return view('auth.newlogin');
-    $user = User::with('image')->get();
-    dd($user);
-});
-
-//Task date: 25/04/2023
-Route::get('buy/{cookies}', function ($cookies) {
-    if($cookies < 1){
-        return 'Failed, you have bought atleast 1 cookies!';
-    }else{
-        if ($cookies > Auth::user()->wallet) {
-            return 'Error, insufficient funds.';
-        }
-        Auth::user()->wallet -= $cookies;
-        Auth::user()->save();
-
-        Log:info('User ' . Auth::user()->email . ' have bought ' . $cookies . ' cookies');
-        return 'Success, you have bought ' . $cookies . ' cookies!';
-    }
-})->middleware(['auth']);
-
-Route::get('/get',function(){
-    $users = Auth::user()->id;
-    $user = User::where([
-                            // ['role',0],
-                            ['id',$users],
-                        ])->with('wallet')->first();
-    // $wallet_coin = Wallet::->first();
-    // $wallet_coin = $user->where('user_id',1)->get()->toArray();
-    dd($user->wallet->wallet_coin);
-});
-
-Route::get('/imp',function(){
-    // $users = Auth::user()->id;
-    $user = User::where([
-                            ['role',0],
-                            ['id',2],
-                        ])->with('user_image')->get();
-    dd($user);
-});
-
-
-Route::get('/rel-data',function(){
-
-    // $user = Wallet::with('transaction_histories')->get();
-    $user = User::where('role',0)->with('wallet')->with('transaction_histories')->get()->toArray();
-    dd($user);
-});
-
-
+// Route::get('/Market/search', [ImageController::class,'index'])->name('search');
+// Route::get('/Market', [ImageController::class, 'lazyLoadMarket'])->name('market');
 //-----------------------------------------------------------------------------------------------------------//
 
 //Project Routes Starts form Here
@@ -111,12 +57,11 @@ Auth::routes([
 //Home Page
 Route::get('/home', [ChangePasswordController::class, 'index'])->name('home')->middleware('verified');;
 
-//Market
-Route::get('/Market', [ImageController::class, 'index'])->name('market');
+//Market view With Lazy Loading, search, sort
+Route::get('/Market',[ImageController::class,'lazyLoadData'])->name('market');
 
-// Route::get('/Market/search', [ImageController::class,'index'])->name('search');
-
-Route::get('/cards', [ImageController::class, 'getImageCards'])->name('cards');
+// previous market card append
+// Route::get('/cards', [ImageController::class, 'getImageCards'])->name('cards');
 
 
 //Referral Register
@@ -142,7 +87,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     //Bonus-----------------------------ABOVE
 
     //Admin User List-----------------------------
-    Route::get('/admin/userlist',[AdminController::class,'AdminUserListView'])->name('userlist');
+    Route::get('/admin/userlist',[AdminController::class,'adminUserListView'])->name('userlist');
 
     Route::post('/admin/userlist',[AdminController::class,'addUser'])->name('addUser');
 
@@ -174,10 +119,6 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
         Route::delete('admin/imagelists/{id}', [ImageController::class, 'deleteImage'])->name('ImageDeleteAdmin');
 
         //Admin Image --------------
-
-        //extra admin
-        // Route::get('/admin/userlist',[AdminController::class,'index'])->name('admin');
-
 });
 
 //user
@@ -209,7 +150,7 @@ Route::group(['middleware' => ['auth', 'user']], function () {
     //Image Upload form view
     Route::get('/upload', [ImageController::class, 'create'])->name('images.create');
 
-    Route::post('images/upload',[ImageController::class,'demo'])->name('images.upload');
+    Route::post('images/upload',[ImageController::class,'dynamicImageUploadForm'])->name('images.upload');
 
     //Image Upload form submit
     Route::post('addmore',[ImageController::class,'addMoreImage'])->name('addmorePost');
@@ -226,31 +167,5 @@ Route::get('image-market/{image}', [DownloadController::class, 'downloadImage'])
 //In UserImageList
 Route::get('image-download/{image}', [DownloadController::class, 'downloadImage'])->name('sample.image');
 
-
+//Plz Login To buy Image
 Route::get('/market',[ImagePurchaseController::class, 'plzLogin'])->name('plzLogin');
-
-// -------------------------------------------
-// Route::get('/admin',[DemoController::class,'demoview'])->middleware(['auth','admin']);
-
-// Route::get('/user',[UserController::class,'userview'])->middleware(['auth','user']);
-
-// -----------------------------
-// Route::group(['middleware' => ['auth', 'admin']], function () {
-
-//     Route::get('admin', [DemoController::class, 'demoview']);
-// });
-
-
-// Route::group(['middleware' => ['auth', 'user']], function () {
-//     Route::get('user', [DemoController::class, 'userview'])->name('product.index');
-// });
-
-// Route::middleware(['auth','role'])->group(function(){
-//     Route::get('/home',function(){
-//         $user = auth()->user();
-//         if($user->role ==='admin'){
-//             return view('admin');
-//         }
-//         return view('user');
-//     })->name('home');
-// });

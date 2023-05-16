@@ -11,6 +11,13 @@ class Bonus extends Model
 {
     use HasFactory, Uuids;
 
+
+    protected $fillable = [
+                            'bonus_name',
+                            'coins'
+                          ];
+
     public $timestamps = false;
+
 
 }

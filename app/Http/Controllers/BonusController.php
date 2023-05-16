@@ -12,7 +12,6 @@ class BonusController extends Controller
     //Get the All BonusList.
     public function bonusView(){
         $bonus_list = Bonus::all();
-
         return view('temp.admin.bonus',compact('bonus_list'));
     }
 
@@ -24,21 +23,10 @@ class BonusController extends Controller
 
     //Bonus Update function
     public function bonusUpdate(BonusEditRequest $request,$id){
-        // dd($id);
-        // $request->validate([
-        //     'bonus_name' => 'required',
-        //     'coins' => 'required'
-        // ]);
-
         $bonusUpdate = Bonus::find($id);
-        $bonusUpdate->bonus_name = $request->input('bonus_name');
-        $bonusUpdate->coins = $request->input('coins');
-
-        $bonusUpdate->update();
-
-        // $request->session()->flash('message', 'Bonus Updated Successfully.');
-        // $request->session()->flash('message-type', 'success');
-
+        if ($bonusUpdate) {
+            $bonusUpdate->update($request->all());
+        }
 
         return response()->json(['success' => true]);
     }

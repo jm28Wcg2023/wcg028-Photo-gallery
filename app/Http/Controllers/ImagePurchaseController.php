@@ -74,6 +74,7 @@ class ImagePurchaseController extends Controller
         return redirect()->route('market');
     }
 
+    //this check if user is not login it will give message
     public function plzLogin(){
         if(!Auth::check()){
             Alert::error('Failed', 'Please Login');

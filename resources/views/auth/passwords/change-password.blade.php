@@ -19,19 +19,19 @@
                             {{ session('success') }}
                         </div>
                     @endif
-                    @if($errors)
+                    {{-- @if($errors)
                         @foreach ($errors->all() as $error)
                             <div class="alert alert-danger">{{ $error }}</div>
                         @endforeach
-                    @endif
-                    <form class="form-horizontal" method="POST" action="{{ route('changePasswordPost') }}">
+                    @endif --}}
+                    <form class="form-horizontal" method="POST" action="{{ route('changePasswordPost') }}" id="myForm">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('current-password') ? ' has-error' : '' }}">
                             <label for="new-password" class="col-md-4 control-label">Current Password</label>
 
                             <div class="col-md-6">
-                                <input id="current-password" type="password" class="form-control" name="current-password" required>
+                                <input id="current-password" type="password" class="form-control" name="current-password" >
 
                                 @if ($errors->has('current-password'))
                                     <span class="help-block">
@@ -46,7 +46,7 @@
                             <label for="new-password" class="col-md-4 control-label">New Password</label>
 
                             <div class="col-md-6">
-                                <input id="new-password" type="password" class="form-control" name="new-password" required>
+                                <input id="new-password" type="password" class="form-control" name="new-password" >
 
                                 @if ($errors->has('new-password'))
                                     <span class="help-block">
@@ -60,7 +60,7 @@
                         <div class="form-group">
                             <label for="new-password-confirm" class="col-md-4 control-label">Confirm New Password</label>
                             <div class="col-md-6">
-                                <input id="new-password-confirm" type="password" class="form-control" name="new-password_confirmation" required>
+                                <input id="new-password-confirm" type="password" class="form-control" name="new-password_confirmation" >
                             </div>
                         </div>
                         <br>
@@ -78,4 +78,7 @@
         </div>
     </div>
 </div>
+@endsection
+@section('js-validation')
+{!! JsValidator::formRequest('App\Http\Requests\changePasswordRequest', '#myForm') !!}
 @endsection
