@@ -17,7 +17,7 @@ class CreateBonusesTable extends Migration
             $table->uuid('id');
             $table->index('id');
             $table->string('bonus_name');
-            $table->string('coins');
+            $table->float('coins',8);
         });
     }
 

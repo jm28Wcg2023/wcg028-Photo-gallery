@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
 use App\Models\Image;
+use App\Models\UserImage;
 use Illuminate\Support\Str;
 use App\Http\Requests\AdminUserCreateRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -20,7 +21,10 @@ class AdminController extends Controller
 {
     //View the Admin Dashboard
     public function adminView(){
-        return view('temp.admin.admin');
+        $userCount = User::where('role','0')->count();
+        $imageCount = Image::count();
+        $purchaseCount = UserImage::count();
+        return view('temp.admin.admin', compact('userCount', 'imageCount','purchaseCount'));
     }
 
     //View the Present User-List in the Admin view

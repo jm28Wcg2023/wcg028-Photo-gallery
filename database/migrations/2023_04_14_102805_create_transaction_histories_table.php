@@ -18,7 +18,7 @@ class CreateTransactionHistoriesTable extends Migration
             $table->index('id');
             $table->string('wallet_id');
             $table->enum('transaction_type',['credit','debit']);
-            $table->string('transaction_amount');
+            $table->float('transaction_amount');
             $table->string('description');
             $table->timestamps();
         });

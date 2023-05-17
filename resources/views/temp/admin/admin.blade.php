@@ -57,6 +57,32 @@
     <li class="breadcrumb-item active">Dashboard</li>
 </ol>
 <div class="row m-3">
+    <div class="row">
+        <div class="col-3  mb-3">
+            <div class="card w-5">
+                <div class="card-header fs-5 text-bg-info">{{ __('Present User\'s') }}</div>
+                <div class="card-body">
+                    {{ $userCount }}
+                </div>
+            </div>
+        </div>
+        <div class="col-3 mb-3">
+            <div class="card">
+                <div class="card-header fs-5 text-bg-success">{{ __('Images Uploaded') }}</div>
+                <div class="card-body">
+                    {{ $imageCount }}
+                </div>
+            </div>
+        </div>
+        <div class="col-3  mb-3">
+            <div class="card ">
+                <div class="card-header fs-5 text-bg-success">{{ __('Purchased Images') }}</div>
+                <div class="card-body">
+                    {{ $purchaseCount }}
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-4">
         <div class="card w-100" style="width: 18rem;">
             <div class="card-body">

@@ -48,6 +48,7 @@ class ImageController extends Controller
     //Market View
     public function lazyLoadData(Request $request)
     {
+
         $search = $request->input('search');
         $sort = $request->input('sort');
 
@@ -143,7 +144,7 @@ class ImageController extends Controller
                 $wallet = Wallet::where('user_id','=',$user)->first();
 
                 //get the image_upload_bonus value from Database
-                $imageUploadBonus = Bonus::where('bonus_name','image_upload_bonus')->value('coins')->first();
+                $imageUploadBonus = Bonus::where('bonus_name','image_upload_bonus')->select('coins')->first();
 
 
                 $coin = $wallet->wallet_coin + $imageUploadBonus->coins;

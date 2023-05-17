@@ -52,7 +52,7 @@ $(document).ready(function() {
                     'Bonus updated Successfully!',
                     'success'
                 )
-                window.location = "/admin/bonus";
+                window.location = "/admin/bonus";   
             },
             error:function(xhr, status, error){
                 var errors = xhr.responseJSON.errors;

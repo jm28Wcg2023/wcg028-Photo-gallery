@@ -28,4 +28,20 @@ class changePasswordRequest extends FormRequest
             'new-password' => 'required|string|min:8|confirmed',
         ];
     }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'current-password.required' => 'Your current-password is required',
+            'new-password.required' => 'Here add new-password',
+            'new-password.min' =>'Your new-password Should be Minimum of 8 Character',
+            'new-password.confirmed' => 'your new-password not match to confirm-password'
+        ];
+    }
+
 }
