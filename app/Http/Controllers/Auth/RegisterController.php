@@ -110,7 +110,7 @@ class RegisterController extends Controller
     {
         $referralUser = User::where('affiliation_link', $user->referred_by)->first();
         $referralBonus = Bonus::where('bonus_name', 'referral_bonus')->select('coins')->first();
-        $referralWallet = Wallet::where('user_id', $referralUser->id)->select('id')->first();
+        $referralWallet = Wallet::where('user_id', $referralUser->id)->first();
         $referralUserMaxReferralCount = User::where('affiliation_link', $user->referred_by)->select('max_referral')->first();
 
         $referralUserWalletCoins = $referralWallet->wallet_coin + $referralBonus->coins;
