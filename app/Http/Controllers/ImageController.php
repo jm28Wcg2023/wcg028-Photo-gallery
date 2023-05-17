@@ -57,7 +57,7 @@ class ImageController extends Controller
         // Apply search filter if provided
         if ($search) {
             $query->where('name', 'like', '%' . $search . '%')
-                   ->where('description', 'like', '%' . $search . '%');
+                   ->orWhere('description', 'like', '%' . $search . '%');
         }
 
         // Apply sort criteria if provided
