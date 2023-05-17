@@ -65,91 +65,66 @@ class RegisterController extends Controller
         ]);
     }
 
-    //This Register the User.
+    // create user
     protected function create(array $data)
     {
-
-        $referred_by = $data['referred_by'] ?? '';
-
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
-            'referred_by'   => $referred_by,
+            'referred_by' => $data['referred_by'] ?? '',
             'affiliation_link' => Str::random(12),
         ]);
 
-        //get the welcome_bonus value from Database
-        $welcome_bonus = Bonus::where('bonus_name','welcome_bonus')->select('coins')->first();
+        $this->processWelcomeBonus($user);
 
-        Alert::success('Success', 'You\'ve Successfully Registered');
-
-        //new 5 coins added in the new user
-        $wallet_coins =0;
-        Wallet::create([
-            'wallet_coin' => $wallet_coins + $welcome_bonus->coins,
-            'user_id' => $user->id,
-        ]);
-
-        //new user welcome bonus transaction.
-        $wallet = Wallet::where('user_id',$user->id)->select('id')->first();
-
-        TransactionHistory::create([
-            'wallet_id' => $wallet->id,
-            'transaction_type'=> 'credit',
-            'transaction_amount' => $welcome_bonus->coins,
-            'description' => 'WELCOME BONUS'.' At: '.date('Y-m-d H:i:s'),
-        ]);
-
-        if($referred_by == ''){
-            // Mail::to($user->email)->send(new WelcomeEmail($user));
-            Mail::to($user->email)->send(new WelcomeEmail($data['name'], $data['email']));
+        if ($user->referred_by == '') {
+            Mail::to($user->email)->send(new WelcomeEmail($user->name, $user->email));
         }
-        //it check if the user has referral code so do  this.
-        if($referred_by){
-            //get the id of  user based on referral code
-            $referral_user_id = User::where('affiliation_link',$data['referred_by'])->select('id')->first();
 
-            //get the wallet_coin of  user based on referral_user_id
-            $referral_user_id_wallet_coin = Wallet::where('user_id',$referral_user_id->id)->select('wallet_coin')->first();
-
-            //get the referral_bonus value from Database
-            $referral_bonus = Bonus::where('bonus_name','referral_bonus')->select('coins')->first();
-
-            //get the Current present coin
-            $coin = $referral_user_id_wallet_coin->wallet_coin + $referral_bonus->coins;
-            //update the wallet coin
-            Wallet::where('user_id', $referral_user_id->id)->update(['wallet_coin' => $coin]);
-            //get the Wallet Coin
-            $referral_wallet = Wallet::select('id')->where('user_id',$referral_user_id->id)->first();
-
-            //get the max referral for the user
-            $referral_user_max_referral_count = User::where('affiliation_link',$data['referred_by'])->select('max_referral')->first();
-            // dd($referral_user_max_referral_count);
-
-
-            //check the max_referral is upto 10
-            if($referral_user_max_referral_count->max_referral < 10){
-
-                //get the max_referral and  +1 init
-                $max_referral_count = $referral_user_max_referral_count->max_referral + 1;
-
-                //update the max_referral for the referral user
-                User::where('id', $referral_user_id->id)->update(['max_referral'=> $max_referral_count]);
-
-                TransactionHistory::create([
-                    'wallet_id' => $referral_wallet->id,
-                    'transaction_type'=> 'credit',
-                    'transaction_amount' => $referral_bonus->coins,
-                    'description' => 'REFERRAL BONUS'.' At: '.date('Y-m-d H:i:s'),
-                ]);
-
-                Mail::to($user->email)->send(new ReferralEmail($user));
-            }
+        if ($user->referred_by) {
+            $this->processReferralBonus($user);
         }
 
         return $user;
+    }
+
+    //welcome user Logic
+    protected function processWelcomeBonus(User $user)
+    {
+        $welcomeBonus = Bonus::where('bonus_name', 'welcome_bonus')->select('coins')->first();
+        $walletCoins = 0;
+
+        $wallet = Wallet::create([
+            'wallet_coin' => $walletCoins + $welcomeBonus->coins,
+            'user_id' => $user->id,
+        ]);
+
+        //Helper Function
+        createTransaction($wallet->id,'credit',$welcomeBonus->coins,'WELCOME BONUS' . ' At: ' . date('Y-m-d H:i:s'));
+    }
+
+    //Referal user Logic
+    protected function processReferralBonus(User $user)
+    {
+        $referralUser = User::where('affiliation_link', $user->referred_by)->first();
+        $referralBonus = Bonus::where('bonus_name', 'referral_bonus')->select('coins')->first();
+        $referralWallet = Wallet::where('user_id', $referralUser->id)->select('id')->first();
+        $referralUserMaxReferralCount = User::where('affiliation_link', $user->referred_by)->select('max_referral')->first();
+
+        $referralUserWalletCoins = $referralWallet->wallet_coin + $referralBonus->coins;
+        Wallet::where('user_id', $referralUser->id)->update(['wallet_coin' => $referralUserWalletCoins]);
+
+        if ($referralUserMaxReferralCount->max_referral < 10) {
+            $maxReferralCount = $referralUserMaxReferralCount->max_referral + 1;
+            User::where('id', $referralUser->id)->update(['max_referral' => $maxReferralCount]);
+
+            //Helper Function
+            createTransaction($referralWallet->id,'credit',$referralBonus->coins,'REFERRAL BONUS' . ' At: ' . date('Y-m-d H:i:s'));
+        }
+
+        Mail::to($user->email)->send(new ReferralEmail($user));
     }
 
     public function referralRegister(Request $request){

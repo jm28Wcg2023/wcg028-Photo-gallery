@@ -18,54 +18,41 @@ class ImagePurchaseController extends Controller
         $image = Image::findOrFail($id);
 
         //get User Id
-        $user = Auth::user()->id;
+        $userId = Auth::user()->id;
 
         //Get the image Coin from image id
-        $image_coin = $image->coin;
+        $imageCoin = $image->coin;
+        $wallet = Wallet::where('user_id',$userId)->first();
+        $walletCoin = $wallet->wallet_coin;
 
-        //get the wallet coin from the user id
-        $wallet = Wallet::where('user_id',$user)->select('wallet_coin')->first();
-        $wallet_id = Wallet::where('user_id',$user)->select('id')->first();
-        $wallet_coin = $wallet->wallet_coin;
-
-        // dd($image->id);
         //checks the user has coins if "true" goes inside else return with error
-        if($wallet_coin >= $image_coin){
+        if($walletCoin >= $imageCoin){
+
             UserImage::create([
-                'user_id' => $user,
+                'user_id' => $userId,
                 'image_id' => $image->id,
             ]);
 
-            $remain_coin = $wallet_coin - $image_coin;
+            $remain_coin = $walletCoin - $imageCoin;
 
             // $change_owner = $image->user
-            Image::where('id',$image->id)->update(['user_id' => $user]);
-            Wallet::where('user_id', $user)->update(['wallet_coin' => $remain_coin]);
+            Image::where('id',$image->id)->update(['user_id' => $userId]);
+            Wallet::where('user_id', $userId)->update(['wallet_coin' => $remain_coin]);
 
-            TransactionHistory::create([
-                'wallet_id' => $wallet_id->id,
-                'transaction_type'=> 'debit',
-                'transaction_amount' => $image_coin,
-                'description' => 'IMAGE PURCHASE ID:'.$image->id .' At: '.date('Y-m-d H:i:s'),
-            ]);
-            //Image Owner Buy and Add transaction
-            $image_owner_wallet = Wallet::where('user_id',$image->user_id)->select('wallet_coin')->first();
+            //Helper Function
+            createTransaction($wallet->id,'debit',$imageCoin,'IMAGE PURCHASE ID:'.$image->id .' At: '.date('Y-m-d H:i:s'));
+
+            $image_owner_wallet = Wallet::where('user_id',$image->user_id)->first();
+
             $owner_wallet_coin = $image_owner_wallet->wallet_coin;
-
-            $image_owner_wallet_id = Wallet::where('user_id',$image->user_id)->select('id')->first();
 
             $update_coin = $owner_wallet_coin + $image->coin;
 
             Wallet::where('user_id', $image->user_id)->update(['wallet_coin' => $update_coin]);
 
-            TransactionHistory::create([
-                'wallet_id' => $image_owner_wallet_id->id,
-                'transaction_type'=> 'credit',
-                'transaction_amount' => $image->coin,
-                'description' => 'MARKET IMAGE PURCHASE ID:'.$image->id .' At: '.date('Y-m-d H:i:s'),
-            ]);
+            createTransaction($image_owner_wallet->id,'credit',$image->coin,'MARKET IMAGE PURCHASE ID:'.$image->id .' At: '.date('Y-m-d H:i:s'));
 
-        Alert::success('Success', 'You have Purchased Image');
+            Alert::success('Success', 'You have Purchased Image');
 
         }else{
             Alert::warning('Low Coins', 'Wallet has Low Balance');

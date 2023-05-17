@@ -39,16 +39,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Testing Routes Below
-
-//-----------------------------------------------------------------------------------------------------------//
-//Market
-// Route::get('/Market', [ImageController::class, 'index'])->name('market');
-
-// Route::get('/Market/search', [ImageController::class,'index'])->name('search');
-// Route::get('/Market', [ImageController::class, 'lazyLoadMarket'])->name('market');
-//-----------------------------------------------------------------------------------------------------------//
-
 //Project Routes Starts form Here
 Auth::routes([
     'verify' => true
@@ -59,10 +49,6 @@ Route::get('/home', [ChangePasswordController::class, 'index'])->name('home')->m
 
 //Market view With Lazy Loading, search, sort
 Route::get('/Market',[ImageController::class,'lazyLoadData'])->name('market');
-
-// previous market card append
-// Route::get('/cards', [ImageController::class, 'getImageCards'])->name('cards');
-
 
 //Referral Register
 Route::get('/referral-register',[RegisterController::class,'referralRegister'])->name('referralRegister');
@@ -160,12 +146,15 @@ Route::group(['middleware' => ['auth', 'user']], function () {
 //Image Purchase button Route
 Route::get('image-purchase/{image}', [ImagePurchaseController::class, 'purchaseImage'])->name('purchase.image');
 //Download Images button  Route
-Route::get('image-market/{image}', [DownloadController::class, 'downloadImage'])->name('download.image');
+// Route::get('image-market/{image}', [DownloadController::class, 'downloadImage'])->name('download.image');
+
+Route::get('image-download/{image}', [DownloadController::class, 'downloadImage'])->name('download.image');
+
 
 //Download Images Route
 //In Market
 //In UserImageList
-Route::get('image-download/{image}', [DownloadController::class, 'downloadImage'])->name('sample.image');
+// Route::get('image-download/{image}', [DownloadController::class, 'downloadImage'])->name('sample.image');
 
 //Plz Login To buy Image
 Route::get('/market',[ImagePurchaseController::class, 'plzLogin'])->name('plzLogin');

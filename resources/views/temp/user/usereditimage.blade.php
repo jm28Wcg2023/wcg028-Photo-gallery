@@ -5,12 +5,8 @@
     <link href="{{ asset('templete/css/styles.css') }}" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
-    <script src="
-    https://cdn.jsdelivr.net/npm/sweetalert2@11.7.4/dist/sweetalert2.all.min.js
-    "></script>
-    <link href="
-    https://cdn.jsdelivr.net/npm/sweetalert2@11.7.4/dist/sweetalert2.min.css
-    " rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.4/dist/sweetalert2.all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.4/dist/sweetalert2.min.css" rel="stylesheet">
 
     <style>
         label.error {
@@ -118,91 +114,12 @@
 
 
 @section('downlinks')
-    <script>
-        $(document).ready(function() {
-            function isValidate(){
-                $("#editForm").validate({
-                    rules: {
-                        name: {
-                            required :true,
-                            // noSpace: true,
-                        },
-                        description: {
-                            required :true,
-                            // noSpace: true,
-                        },
-                        coin:{
-                            required :true,
-                            number: true,
-
-                            // noSpace: true,
-                        },
-
-                    },
-                    messages: {
-                        name: {
-                            required: "Please enter a name.",
-                        },
-                        description: {
-                            required: "Please enter a description.",
-                        },
-                        coin: {
-                            required: "Please select a coin.",
-                            number: "Please enter a valid number",
-                        },
-                    }
-                });
-            }
-
-            $('form').submit(function(e) {
-                e.preventDefault();
-
-                // if(isValidate()){ // client side validation start
-
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                    $.ajax({
-                        url:"{{route('UserUpdateImage',$imageData->id)}}",
-                        method:"POST",
-                        data:new FormData(this),
-                        type:'json',
-                        contentType: false,
-                        cache : false,
-                        processData: false,
-                        success:function(data)
-                        {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Good job!',
-                                text: 'Image Data Updated Successfully!',
-                                timer: 4000
-                            })
-                            // console.log(data)
-                            // window.location = '{{ route('userimagelist') }}'
-                        },
-                        error:function(xhr, status, error){
-                            var errors = xhr.responseJSON.errors;
-                            console.log(errors)
-                            $.each(errors, function (key, value) {
-                                $("#" + key + "_error").text(value[0]);
-                                $("#" + key).addClass("is-invalid");
-                            });
-
-                        }
-                    });
-                // } // client side validation end
-            });
-        });
-    </script>
-
     <!-- custom -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
     <script src="{{ asset('js/scripts_custom.js') }}"></script>
+    <script src="{{ asset('js/usereditimage.js') }}"></script>
 
     <!-- default -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

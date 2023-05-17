@@ -18,9 +18,6 @@ class CreateWalletsTable extends Migration
             $table->index('id');
             $table->string('wallet_coin',150);
             $table->string('user_id');
-            // $table->index('user_id');
-            // $table->unsignedBigInteger('user_id');
-            // $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

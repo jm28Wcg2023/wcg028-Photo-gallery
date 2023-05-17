@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Response;
 
 class DownloadController extends Controller
 {
-    //Download the images
+    //Download the images from image name
     public function downloadImage(Image $image){
-        $download_path = ( public_path() . '/images/' . $image->image_path);
-        return( Response::download( $download_path ) );
+        $downloadPath = ( public_path() . '/images/' . $image->image_path);
+        return( Response::download( $downloadPath ) );
     }
 }

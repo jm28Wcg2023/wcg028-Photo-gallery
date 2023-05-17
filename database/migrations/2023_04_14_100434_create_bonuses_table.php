@@ -18,10 +18,6 @@ class CreateBonusesTable extends Migration
             $table->index('id');
             $table->string('bonus_name');
             $table->string('coins');
-
-            // $table->string('image_upload_bonus');
-            // $table->string('referral_bonus');
-            // $table->string('welcome_bonus');
         });
     }
 

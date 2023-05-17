@@ -53,9 +53,9 @@ class UserController extends Controller
             $login_user_transaction_history = User::where('id','=',$login_user_id)->with('transaction_histories')->get();
 
             return Datatables::of($login_user_transaction_history[0]['transaction_histories'])
-                                                                                            ->addIndexColumn()
+                                                                                            // ->addIndexColumn()
                                                                                             // ->orderColumn('created_at', true)
-                                                                                            ->rawColumns(['action'])
+                                                                                            // ->rawColumns(['action'])
                                                                                             ->make(true);
         }
     }

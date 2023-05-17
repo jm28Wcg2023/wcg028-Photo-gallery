@@ -13,13 +13,6 @@ class BonusSeeder extends Seeder
      */
     public function run()
     {
-        //
-        // Bonus::create([
-        //     'image_upload_bonus' => '10',
-        //     'referral_bonus' => '50',
-        //     'welcome_bonus' => '5'
-        // ]);
-
         Bonus::create([
             'bonus_name' => 'welcome_bonus',
             'coins' => '5',

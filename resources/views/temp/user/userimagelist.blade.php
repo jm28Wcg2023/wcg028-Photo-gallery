@@ -5,7 +5,11 @@
     <link href="{{ asset('templete/css/styles.css') }}" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-
+    <style>
+        #example_filter{
+            float: right;
+        }
+    </style>
 @endsection
 @section('sidenav')
 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
@@ -60,14 +64,14 @@
         <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#extraLargeModal">User Purchased Images</button>
 
         <div id="extraLargeModal" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-xl">
+            <div class="modal-dialog modal-dialog-scrollable modal-xl">
                 <div class="modal-content mt-5">
                     <div class="modal-header">
                         <h5 class="modal-title">User Purchased Images</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <table class="table">
+                        <table class="table" id="example" >
                             <thead>
                               <tr class="table-dark">
                                 <th>Id</th>
@@ -137,7 +141,7 @@
                     <a class="btn" id="editImage" href="{{route('UserEditImage',$sample->id)}}" role="button"><i class="bi bi-pencil-square" style="color:rgb(245, 173, 49);"></i></a>
                 </td>
                 <td>
-                    <a href="{{ route('sample.image',$sample->id) }}" class="btn d-flex justify-content-center"><i class="fa-solid fa-download"></i></a>
+                    <a href="{{ route('download.image',$sample->id) }}" class="btn d-flex justify-content-center"><i class="fa-solid fa-download"></i></a>
                 </td>
                 <td>
                     <form method="post" action="{{route('ImageDeleteUser',$sample->id)}}">
@@ -155,7 +159,13 @@
 
 
 @section('downlinks')
-
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $('#example').DataTable({
+            "autoWidth": false,
+            "order": []
+        });
+    </script>
     <!-- custom -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
     <script src="{{ asset('js/scripts_custom.js') }}"></script>
