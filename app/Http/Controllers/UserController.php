@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use DataTables;
 use App\Http\Requests\userUpdateImageRequest;
 use Yajra\DataTables\Services\DataTable;
+use Illuminate\Support\Carbon;
 
 class UserController extends Controller
 {
@@ -42,43 +43,30 @@ class UserController extends Controller
         return view('temp.user.wallet',compact('availableWalletCoin','login_user_transaction_history'));
     }
 
-    // Yajara Datatable Of Transaction History
     public function walletData(Request $request){
-
         $login_user_id = Auth::user()->id;
+        $selectedType = $request->input('approved');
 
-        $availableWalletCoin = Wallet::where('user_id',$login_user_id)->with('user')->get()->toArray();
+        $availableWalletCoin = Wallet::where('user_id', $login_user_id)->with('user')->get()->toArray();
 
         if ($request->ajax()) {
+            $query = User::where('id', '=', $login_user_id)->with(['transaction_histories' => function ($q) use ($selectedType) {
+                if (!empty($selectedType)) {
+                    $q->where('transaction_type', $selectedType);
+                }
+            }]);
 
-            $login_user_transaction_history = User::where('id','=',$login_user_id)->with('transaction_histories')->get();
+            $login_user_transaction_history = $query->get();
 
-            return Datatables::of($login_user_transaction_history[0]['transaction_histories'])
-                                                                                            //TODO Filter task
-                                                                                            // ->addIndexColumn()
-                                                                                            // ->orderColumn('created_at', true)
-                                                                                            // ->rawColumns(['action'])
-                                                                                        //     ->addColumn('transaction_type', function($row){
-                                                                                        //         if($row->transaction_type){
-                                                                                        //            return '<span class="badge badge-primary">Yes</span>';
-                                                                                        //         }else{
-                                                                                        //            return '<span class="badge badge-danger">No</span>';
-                                                                                        //         }
-                                                                                        //    })
-                                                                                        //    ->filter(function ($instance) use ($request) {
-                                                                                        //         //   dd($request->get('approved'));
-                                                                                        //        if ($request->get('approved') == 'debit' || $request->get('approved') == 'credit') {
-                                                                                        //            $instance->where('approved', $request->get('approved'));
-                                                                                        //        }
-                                                                                            //    if (!empty($request->get('search'))) {
-                                                                                            //         $instance->where(function($w) use($request){
-                                                                                            //            $search = $request->get('search');
-                                                                                            //            $w->orWhere('description', 'LIKE', "%$search%");
-                                                                                            //        });
-                                                                                            //    }
-                                                                                        //    })
-                                                                                        //    ->rawColumns(['transaction_type'])
-                                                                                            ->make(true);
+            $filteredTransactionHistories = $login_user_transaction_history->flatMap(function ($user) {
+                return $user->transaction_histories;
+            });
+
+            return Datatables::of($filteredTransactionHistories)
+                                    ->editColumn('created_at', function($data){
+                                            $formatedDate = Carbon::createFromFormat('Y-m-d H:i:s', $data->created_at)->format('d-m-Y H:i:s');
+                                            return $formatedDate;
+                                    })->make(true);
         }
     }
 

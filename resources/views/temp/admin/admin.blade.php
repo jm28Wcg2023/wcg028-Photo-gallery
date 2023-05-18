@@ -22,7 +22,7 @@
                 Market
             </a>
             <div class="sb-sidenav-menu-heading">Tables</div>
-            <a class="nav-link" href="{{route('userlist')}}">
+            <a class="nav-link" href="{{route('userlist.index')}}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
                 Users
             </a>
@@ -32,7 +32,7 @@
             </a>
             {{-- bonusView --}}
             <div class="sb-sidenav-menu-heading">Bonus</div>
-            <a class="nav-link" href="{{route('bonusView')}}">
+            <a class="nav-link" href="{{route('bonuses.index')}}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
                 Bonus
             </a>
@@ -87,7 +87,7 @@
         <div class="card w-100" style="width: 18rem;">
             <div class="card-body">
               <h5 class="card-title">All User List</h5>
-              <a href="{{route('userlist')}}" class="btn btn-warning  mt-3">User List</a>
+              <a href="{{route('userlist.index')}}" class="btn btn-warning  mt-3">User List</a>
             </div>
           </div>
           <div class="card w-100 mt-4" style="width: 18rem;">

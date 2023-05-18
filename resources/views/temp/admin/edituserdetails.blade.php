@@ -21,7 +21,7 @@
                 Market
             </a>
             <div class="sb-sidenav-menu-heading">Tables</div>
-            <a class="nav-link" href="{{route('userlist')}}">
+            <a class="nav-link" href="{{route('userlist.index')}}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
                 Users
             </a>
@@ -30,7 +30,7 @@
                 Images
             </a>
             <div class="sb-sidenav-menu-heading">Bonus</div>
-            <a class="nav-link" href="{{route('bonusView')}}">
+            <a class="nav-link" href="{{route('bonuses.index')}}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
                 Bonus
             </a>
@@ -55,7 +55,7 @@
         <li class="breadcrumb-item active">Edit User Details</li>
     </ol>
     <div class="container px-5 my-5 shadow-lg py-5">
-        <form action="{{route('updateUser',$userData->id)}}" method="POST" enctype="multipart/form-data" id="sample">
+        <form action="{{route('userlist.update',$userData->id)}}" method="POST" enctype="multipart/form-data" id="sample">
             @csrf
             @method('PUT')
             <div class="form-group my-4">

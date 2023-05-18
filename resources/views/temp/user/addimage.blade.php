@@ -66,64 +66,6 @@
         <li class="breadcrumb-item active">Add Image</li>
     </ol>
 
-<div class="container px-5 my-5 shadow-lg py-5 d-none ">
-<form action="{{ route('addmorePost') }}" method="POST" id="image-upload-form" enctype="multipart/form-data">
-        @csrf
-
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        @if (Session::has('success'))
-            <div class="alert alert-success text-center">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                <p>{{ Session::get('success') }}</p>
-            </div>
-        @endif
-
-        <table class="table table-bordered" id="dynamicTable">
-            <tr>
-                <th>Name</th>
-                <th>Qty</th>
-                <th>Price</th>
-                <th>Action</th>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" name="addmore[0][name]" placeholder="Enter Image Name" id="addmore_0_name" class="form-control checkName" />
-                    <span class="text-dan"></span>
-                    <span class="text-danger" id="addmore_0_name_error"></span>
-                </td>
-                <td>
-                    <input type="text" name="addmore[0][description]" placeholder="Enter Image Description" id="addmore_0_description" class="form-control checkDescription" />
-                    <span class="text-dan"></span>
-                    <span class="text-danger" id="addmore_0_description_error"></span>
-                </td>
-                <td>
-                    <input type="text" name="addmore[0][coin]" placeholder="Enter your Coin" id="addmore_0_coin" class="form-control checkPrice" />
-                    <span class="text-dan"></span>
-                    <span class="text-danger" id="addmore_0_coin_error"></span>
-                </td>
-                <td>
-                    <input type='file' name="addmore[0][image]" id="addmore_0_image" class='form-control checkImage'  accept='image/*' >
-                    <span class="text-dan"></span>
-                    <span class="text-danger" id="addmore_0_image_error"></span>
-                </td>
-                <td><button type="button" name="add" id="add" class="btn btn-success">Add More</button></td>
-
-            </tr>
-        </table>
-
-        <button type="submit" class="btn btn-success">Upload</button>
-    </form>
-</div>
-
 <div class="container px-5 my-5 shadow-lg py-5">
 
     <h2 class="mb-5">Upload Images</h2>

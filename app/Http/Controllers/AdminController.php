@@ -27,53 +27,9 @@ class AdminController extends Controller
         return view('temp.admin.admin', compact('userCount', 'imageCount','purchaseCount'));
     }
 
-    //View the Present User-List in the Admin view
-    public function adminUserListView(){
-        $users = User::where('role',0)
-                            ->withCount('image')
-                            ->withCount('user_image')
-                            ->with('wallet')
-                            ->get()->toArray();
-
-        return view('temp.admin.userlist',compact('users'));
-    }
-
     //View the Present Images-List in the Admin view
     public function adminImageListView(){
         return view('temp.admin.imagelist');
     }
 
-    //Edit Image Form from Admin
-    public function adminEditImage($id){
-
-        $imageData = Image::find($id);
-        return view('temp.admin.admineditimage',compact('imageData'));
-    }
-
-    public function deleteUser($id){
-        $data = User::find($id);
-
-        $data->delete();
-        return response()->json(array('success' => true));
-    }
-
-    public function editUserView($id){
-
-        $userData = User::find($id);
-
-        return view('temp.admin.edituserdetails',compact('userData'));
-
-    }
-
-
-    public function updateUser(UpdateUserRequest $request, $id){
-
-        $userData = User::find($id);
-        if ($userData) {
-            $userData->update($request->all());
-        }
-
-        Alert::success('Success', 'You\'ve updated User Data Successfully');
-        return redirect()->route('userlist');
-    }
 }

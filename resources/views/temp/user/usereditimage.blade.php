@@ -35,7 +35,7 @@
                 Market
             </a>
             <div class="sb-sidenav-menu-heading">Tables</div>
-            <a class="nav-link" href="{{route('userlist')}}">
+            <a class="nav-link" href="{{route('userlist.index')}}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
                 Users
             </a>
@@ -44,7 +44,7 @@
                 Images
             </a>
             <div class="sb-sidenav-menu-heading">Bonus</div>
-            <a class="nav-link" href="{{route('bonusView')}}">
+            <a class="nav-link" href="{{route('bonuses.index')}}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
                 Bonus
             </a>

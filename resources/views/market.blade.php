@@ -1,36 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- <div class="container-fluid"> --}}
-    <div class="container">
-        {{-- <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form> --}}
-    </div>
-    <style>
-        .py-4 {
-        padding-top: 0rem !important;
-        padding-bottom: 0rem !important;
-        }
-        /* body{
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000 100%), url("../assets/img/bg-masthead.jpg");
-        } */
-        img{
-            width: 414px;
-            height:276px;
-        }
-        .card-body{
-            width:414px;
-            height: 185.33px;
-        }
-        .download{
-            display: hidden;
-        }
-        body{
-            background-color: #212529!important;
-        }
-    </style>
+    <link href="{{ asset('css/market.css') }}" rel="stylesheet">
     <section class="bg-dark p-4">
         <div class="container" id="resultsContainer">
             <!--

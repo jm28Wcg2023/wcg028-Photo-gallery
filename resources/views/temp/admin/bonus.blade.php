@@ -26,7 +26,7 @@
                 Market
             </a>
             <div class="sb-sidenav-menu-heading">Tables</div>
-            <a class="nav-link" href="{{route('userlist')}}">
+            <a class="nav-link" href="{{route('userlist.index')}}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
                 Users
             </a>
@@ -75,7 +75,7 @@
                 <td>{{$bonus->bonus_name}}</td>
                 <td>{{$bonus->coins}}</td>
                 <td>
-                    <a class="btn" href="{{route('bonusEdit',$bonus->id)}}" role="button"><i class="bi bi-pencil-square" style="color:rgb(245, 173, 49);"></i></a>
+                    <a class="btn" href="{{route('bonuses.edit',$bonus->id)}}" role="button"><i class="bi bi-pencil-square" style="color:rgb(245, 173, 49);"></i></a>
                 </td>
             </tr>
             @endforeach

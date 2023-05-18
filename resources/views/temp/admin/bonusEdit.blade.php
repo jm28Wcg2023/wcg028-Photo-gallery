@@ -45,7 +45,7 @@
                 Market
             </a>
             <div class="sb-sidenav-menu-heading">Tables</div>
-            <a class="nav-link" href="{{route('userlist')}}">
+            <a class="nav-link" href="{{route('userlist.index')}}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
                 Users
             </a>
@@ -54,7 +54,7 @@
                 Images
             </a>
             <div class="sb-sidenav-menu-heading">Bonus</div>
-            <a class="nav-link" href="{{route('bonusView')}}">
+            <a class="nav-link" href="{{route('bonuses.index')}}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
                 Bonus
             </a>
@@ -83,7 +83,7 @@
 @include('sweetalert::alert')
 
 <div class="row m-3 p-3 shadow-lg">
-    <form id="myForm" data-action="{{route('bonusUpdate',$bonusEdit->id)}}"  method="POST" enctype="multipart/form-data">
+    <form id="myForm" data-action="{{route('bonuses.update',$bonusEdit->id)}}"  method="" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="form-group my-4">

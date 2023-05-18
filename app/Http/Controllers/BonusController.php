@@ -9,25 +9,43 @@ use App\Http\Requests\BonusEditRequest;
 
 class BonusController extends Controller
 {
-    //Get the All BonusList.
-    public function bonusView(){
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
         $bonus_list = Bonus::all();
         return view('temp.admin.bonus',compact('bonus_list'));
     }
 
-    //Bonus Update Form
-    public function bonusEdit($id){
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
         $bonusEdit = Bonus::find($id);
         return view('temp.admin.bonusEdit',compact('bonusEdit'));
     }
 
-    //Bonus Update function
-    public function bonusUpdate(BonusEditRequest $request,$id){
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(BonusEditRequest $request, $id)
+    {
         $bonusUpdate = Bonus::find($id);
         if ($bonusUpdate) {
             $bonusUpdate->update($request->all());
         }
-
         return response()->json(['success' => true]);
     }
+
 }

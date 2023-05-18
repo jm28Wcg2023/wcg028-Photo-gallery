@@ -36,8 +36,8 @@ $(document).ready(function() {
 
         if ($('#myForm').valid()) { //start
         $.ajax({
-            url:$('form').attr('action'),
-            method:"POST",
+            url:$(this).attr('data-action'),
+            method:"PUT",
             data:$('#myForm').serialize(),
             type:'json',
             success:function(data)
@@ -52,7 +52,7 @@ $(document).ready(function() {
                     'Bonus updated Successfully!',
                     'success'
                 )
-                window.location = "/admin/bonus";   
+                window.location = "/admin/bonus";
             },
             error:function(xhr, status, error){
                 var errors = xhr.responseJSON.errors;

@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
     <link href='https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css' rel='stylesheet' type='text/css'>
+    <style>
+        .dt-buttons{
+            display: flex !important;
+            justify-content: flex-end !important;
+            float: none !important;
+            margin-bottom: 5px
+        }
+        #dt-table_length{
+            float: left;
+        }
+    </style>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
@@ -96,14 +107,14 @@
             <div class="accordion-body">
                 <div class="card">
                     <div class="card-body">
-                        <div class="form-group mb-3">
+                        <span class="">
                             <label><strong>Transcation type :</strong></label>
                             <select id='approved' class="form-control" style="width: 200px">
-                                <option value="">Transcation type</option>
+                                <option value="">-----Transcation type-----</option>
                                 <option value="credit">credit</option>
                                 <option value="debit">debit</option>
                             </select>
-                        </div>
+                        </span>
                         <div class="row">
                             <table class="table caption-top wallet-table" id="dt-table">
                                 <thead>
@@ -113,7 +124,6 @@
                                         <th>wallet Transction type</th>
                                         <th>Transaction Amount</th>
                                         <th>Time</th>
-                                        {{-- <th width="100px">Approved</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>

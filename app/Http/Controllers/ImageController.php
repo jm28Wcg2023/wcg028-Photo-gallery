@@ -17,10 +17,12 @@ use App\Http\Requests\UploadNewRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Log;
 use App\Notifications\DeleteImageNotifiaction;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ImageDeleted;
 use App\Mail\UserImageDeleted;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
+
 
 
 class ImageController extends Controller
@@ -95,40 +97,20 @@ class ImageController extends Controller
 
     }
 
-
-
     //Deletes the Image From the Admin Or User Login in the Image List Or In Market.
     public function deleteImage($id){
-
         $image = Image::find($id);
-
         //Remove image From the Public Folder
         unlink("images/".$image->image_path);
-
         $image->delete();
-        Log::warning('User : '.Auth::user()->email.' has delete image id'.$image.' at'.date('Y-m-d H:i:s'));
 
-        $user = Auth::user();
-
-        if(Auth::user()->role == 0){
-            // Send email to user when admin delete the image
-            $email = Auth::user()->where('role',1)->select('email')->first();
-            Mail::to($email)->send(new ImageDeleted($user, $image));
-
-            return redirect()->route('userimagelist');
-        }
-        // Send email to admin when user delete the image
-        $email = Auth::user()->where('id',$image->user_id)->select('email')->first();
-        Mail::to($email)->send(new UserImageDeleted($user, $image));
-
-        return redirect()->route('imagelist');
+        return redirect()->back();
     }
 
 
     //Image Uploaded here from Dynamic select images view
     public function dynamicImageUploadForm(UploadRequest $request)
     {
-        // dd($request->all());
         $user = Auth::user()->id;
 
         $images = [];
@@ -139,22 +121,7 @@ class ImageController extends Controller
                 $file->move(public_path('images'), $name);
                 $images[] = $name;
 
-                $user = Auth::user()->id;
-
-                $wallet = Wallet::where('user_id','=',$user)->first();
-
-                //get the image_upload_bonus value from Database
-                $imageUploadBonus = Bonus::where('bonus_name','image_upload_bonus')->select('coins')->first();
-
-
-                $coin = $wallet->wallet_coin + $imageUploadBonus->coins;
-
-                Wallet::where('user_id', $user)->update(['wallet_coin' => $coin]);
-
-                //helper Function
-                createTransaction($wallet->id,'credit',$imageUploadBonus->coins,'IMAGE ADD BONUS'.' At: '.date('Y-m-d H:i:s'));
-
-                Log::info('User : '.Auth::user()->email.' has uploaded image at'.date('Y-m-d H:i:s'));
+                createImage();
             }
         }
 
@@ -162,7 +129,6 @@ class ImageController extends Controller
             $names = $request->input('titles.' . $key);
             $description = $request->input('descriptions.' . $key);
             $coin = $request->input('coins.' . $key);
-
 
             // Save the image details to the database
             $imageData = new Image;
@@ -172,15 +138,6 @@ class ImageController extends Controller
             $imageData->user_id = $user;
             $imageData->image_path = $image;
             $imageData->save();
-
-
-            // send email to user
-            // $userdata = Auth::user();
-            // Mail::to($userdata->email)->send(new ImageUpload($userdata, $imageData));
-            // //change the Mail file for Admin.
-            // Mail::to('admin@example.com')->send(new ImageUpload($userdata, $imageData));
-
-
         }
 
         Alert::success('Success', 'You\'ve Successfully Uploaded Images');
@@ -188,6 +145,10 @@ class ImageController extends Controller
         return response()->json(['success' => true]);
     }
 
-
+    //Image Download From here
+    public function downloadImage(Image $image){
+        $downloadPath = ( public_path() . '/images/' . $image->image_path);
+        return( Response::download( $downloadPath ) );
+    }
 
 }
